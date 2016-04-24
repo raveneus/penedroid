@@ -2,7 +2,7 @@ import ConfigParser
 import imp
 global cwd
 import token.py
-f = open("cwd.txt", "r")
+f = open("config/cwd.txt", "r")
 cwd = f.read()
 f.close()
 global y = {}
@@ -11,7 +11,8 @@ def getConfig(configFile):
     parser.read(configFile)
     att = eval(parser.get("prf", "att"))
     util = eval(parser.get("prf", "util"))
-    return (att, util)
+    conf = [att, util]
+    return conf
 def load(att, util):
     for module in att:
         m = imp.load_source(module, cwd + "/modules/" + module)
