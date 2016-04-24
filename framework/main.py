@@ -7,6 +7,7 @@ global y
 global cwd
 
 cwd = config.cwd
-config.load(config.getConfig(cwd + "/config/config.conf"))
+attutil = config.getConfig(cwd + "/config/config.conf")
+config.load(attutil[0], attutil[1])
 y = config.y
 
