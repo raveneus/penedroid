@@ -1,9 +1,12 @@
 import os
 import sys
-import ConfigParser
-import imp
 import ftplib
 import cmd
-import config.py
-global y = {}
+import config
+global y
+global cwd
+
+cwd = config.cwd
+config.load(config.getConfig(cwd + "/config/config.conf"))
+y = config.y
 
