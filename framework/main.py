@@ -12,3 +12,10 @@ config.load(attutil[0], attutil[1])
 y = config.y
 
 class menu(Cmd.cmd):
+    def __init__(self):
+        Cmd.cmd.__init__(self)
+        self.prompt = "pdf% "
+    def help_help(self):
+        print "Usage: help [topic]"
+        print "topic"
+
