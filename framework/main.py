@@ -11,3 +11,4 @@ attutil = config.getConfig(cwd + "/config/config.conf")
 config.load(attutil[0], attutil[1])
 y = config.y
 
+class menu(Cmd.cmd):
