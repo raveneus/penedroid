@@ -28,13 +28,14 @@ class ftpanonMenu(cmd.Cmd):
     if var == "ip" or var == "IP":
       self.ip[0] = val
     elif var == "tls" or var == "TLS":
-      if eval(val) == True or eval(val) == False:
+      if eval(val) != True and eval(val) != False:
         print "*** Value not expected type: boolean needed, but found " + type(eval(val))
         return
       self.tls[0] = eval(val)
     else:
       print "*** Variable not found: " + var
       return
+    print "[*]" + var + " => " + val
   def help_set(self):
     print "Usage: set [var] = [val]"
     print "var    variable to set"
