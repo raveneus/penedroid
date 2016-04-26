@@ -53,6 +53,9 @@ class ftpanonMenu(cmd.Cmd):
     if args:
       print "*** Argument number: needed 0"
       return
+    for let in "abcdefghijklmnopqrstuvwxyz":
+        if let in self.ip[0]:
+            self.ip[0] = gethostbyname(self.ip[0])
     if self.tls[0] != True:
       ftp = ftplib.FTP(self.ip[0])
       try:
