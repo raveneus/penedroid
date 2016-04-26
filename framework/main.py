@@ -76,3 +76,8 @@ class menu(cmd.Cmd):
 class utilMenu(cmd.Cmd):
     def __init__(self):
         cmd.Cmd.__init__(self)
+    def help_help(self):
+        print "Usage: help [cmd]"
+        print "cmd    the command to get help on"
+        print "help: show help on a command or list commands"
+    def 
