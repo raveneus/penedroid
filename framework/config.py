@@ -15,7 +15,7 @@ def getConfig(configFile):
     return conf
 def load(att, util):
     for module in att:
-        m = imp.load_source(module, cwd + "/modules/" + module)
+        m = imp.load_source(module, cwd + "/modules/" + module + "/" + module + ".py")
         if y[module]:
             print "[-] Two modules with the same name."
         else:
