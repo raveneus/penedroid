@@ -82,7 +82,7 @@ class ftpanonMenu(cmd.Cmd):
       return
     print "Options for AnonTest:"
     print "========================"
-    print "ip    " + self.ip[0] + "    ip of the target"
+    print "ip    " + self.ip[0] + "    ip or hostname of the target"
     print "tls   " + self.tls[0] + "    True/False (encrypted)"
   def help_show(self):
     print "Usage: show options"
