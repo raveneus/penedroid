@@ -1,18 +1,29 @@
 import ftblib
 import cmd
-import token
+
+
+def getToken(line):
+    token = ""
+    for letter in line:
+        if letter != " ":
+            token += letter
+        else:
+            break
+    return token
+
+upmenu = "util"
 
 class ftpanonMenu(cmd.Cmd):
   def __init__(self):
     cmd.Cmd.__init__(self)
-    self.ip = []
-    self.tls = []
+    self.ip = ["ftp.debian.org"]
+    self.tls = ["False"]
   def help_help(self):
     print "Usage: help [cmd]"
     print "cmd    command to get help on"
     print "help: show help on a command or list commands"
   def do_set(self, args):
-    var = token.getToken(args);
+    var = getToken(args);
     val = args[len(var):][3:]
     if var == "ip" or var == "IP":
       self.ip[0] = val
@@ -61,8 +72,19 @@ class ftpanonMenu(cmd.Cmd):
   def help_start(self):
     print "Usage: start"
     print "start: start the attempt"
-  def do_show(self, args)
-  def help_show(self)
-
-    Status API Training Shop Blog About 
-
+  def do_show(self, args):
+    if args != "options":
+      print"*** Unknown argument: " + args
+      return
+    print "Options for AnonTest:"
+    print "========================"
+    print "ip    " + self.ip[0] + "    ip of the target"
+    print "tls   " + self.tls[0] + "    True/False (encrypted)"
+  def help_show(self):
+    print "Usage: show options"
+    print "show options: show the variables, current value, and description"
+def main():
+  ftpAnonMenu = ftpanonMenu()
+  ftpAnonMenu.cmdloop("pdf-console:" + upmenu + "(TestAnon)% ")
+if __name__ == __main__:
+  main()
