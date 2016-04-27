@@ -80,7 +80,7 @@ class ftpanonMenu(cmd.Cmd):
     if args != "options":
       print"*** Unknown argument: " + args
       return
-    print "Options for AnonTest:"
+    print "Options for ftpanon:"
     print "========================"
     print "ip    " + self.ip[0] + "    ip or hostname of the target"
     print "tls   " + self.tls[0] + "    True/False (encrypted)"
@@ -89,6 +89,6 @@ class ftpanonMenu(cmd.Cmd):
     print "show options: show the variables, current value, and description"
 def main():
   ftpAnonMenu = ftpanonMenu()
-  ftpAnonMenu.cmdloop("pdf-console:" + upmenu + "(TestAnon)% ")
+  ftpAnonMenu.cmdloop("pdf-console:" + upmenu + "(ftpanon)% ")
 if __name__ == __main__:
   main()
