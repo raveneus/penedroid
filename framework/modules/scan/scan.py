@@ -1,6 +1,37 @@
 import cmd
-from socket import *
+from socket import socket, gethostbyname, AF_INET, SOCK_STREAM
+import threading
+import sys.stdout
 
+class scanThread(threading.Thread):
+    def __init__(self, ip, stdout):
+        threading.Thread.__init__(self)
+        self.ip = ip
+        self.stdout = stdout
+    def run(self):
+        s = socket(AF_INET, SOCK_STREAM )
+        for port in range(1, 5000):
+            try:
+                s.connect((self.ip, port))
+                self.stdout.write("[+]Port %d open\n" % port)
+            except:
+                pass
+        s.close()
+class quickScanThread(threading.Thread):
+    def __init__(self, ip, stdout):
+        threading.Thread.__init__(self)
+        self.ip = ip
+        self.stdout = stdout
+    def run(self):
+        s = socket(AF_INET, SOCK_STREAM)
+        ports = {1:"TCPMUX", 5:"Remote Job Entry", 7:"ECHO", 18:"Message Send Protocol", 20:"FTP Data", 21:"FTP Control", 22:"SSH", 23:"Telnet", 25:"SMTP", 29:"MSG ICP", 37:"Time", 42:"Nameserv", 43:"Whois", 49:"Login", 53:"DNS", 69:"TFTP", 70:"Gopher Services", 79:"Finger", 80:"HTTP", 103:"X.400 Standard", 108:"SNA Gateway Access Server", 109:"POP2", 110:"POP3", 115:"SFTP", 118:"SQL Services", 119:"Newsgroup", 137:"NetBIOS", 138:"NetBIOS", 139:"NetBIOS", 143:"IMAP", 150:"NetBIOS", 156:"SQL Server", 161:"SNMP", 179:"Border Gateway Protocol", 190:"Gateway Access Control Protocol", 194:"IRC", 197:"Directory Location Service", 389:"Lightweight Directory Access Protocol (LDAP)", 443:"HTTPS", 444:"Simple Network Paging Protocol", 445:"SMB", 547:"DHCP Server", 1080:"Socks"}
+        for port in ports.keys():
+            try:
+                s.connect((self.ip, port))
+                self.stdout.write("[+]Port %d (%s) open." % (port, ports[port]))
+            except:
+                pass
+        s.close()
 def getToken(line):
     token = ""
     for letter in line:
@@ -13,7 +44,7 @@ class scanMenu(cmd.Cmd):
     def __init__(self):
         cmd.Cmd.__init__(self)
         self.ip = ["ftp.debian.org"]
-        self.quick = [False]
+        self.quick = [True]
     def help_help(self):
         print "Usage: help [cmd]"
         print "cmd    command to get help on"
@@ -52,9 +83,18 @@ class scanMenu(cmd.Cmd):
         if args:
             print "*** Argument number: needed 0"
             return
-        s = socket(AF_INET, SOCK_STREAM)
-        if self.quick[0] != False:
-            
+        for let in "abcdefghijklmnopqrstuvwxyz":
+            if let in self.ip[0]:
+                self.ip[0] = gethostbyname(self.ip[0])
+        if self.quick[0] != True:
+            scanner = scanThread(self.ip[0], stdout)
+            scanner.start()
+        elif self.quick[0] == True:
+            scanner = quickScanThread(self.ip[0], stdout)
+            scanner.start()
+        else:
+            print "*** Unknown error"
+            return
     def help_start(self):
         print "Usage: start"
         print "start: start the scan"
