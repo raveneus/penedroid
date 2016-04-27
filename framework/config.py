@@ -21,7 +21,7 @@ def load(att, util):
         else:
             y[module] = m
     for module in util:
-        m = imp.load_source(module, cwd + "/modules/" + module)
+        m = imp.load_source(module, cwd + "/modules/" + module + "/" + module + ".py")
         if y[module]:
             print "[-] Two modules with the same name."
         else:
