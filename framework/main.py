@@ -5,11 +5,32 @@ from socket import *
 import config
 global y
 global cwd
+global attutilL
+global menus
 
 cwd = config.cwd
-attutil = config.getConfig(cwd + "/config/config.conf")
-config.load(attutil[0], attutil[1])
+attutilL = config.getConfig(cwd + "/config/config.conf")
+config.load(attutilL[0].keys(), attutilL[1].keys())
 y = config.y
+
+def loadFunc(attutil):
+    for util in attutil[1].keys():
+        utilmenu = utilMenu()
+        setattr(utilmenu, "do_" + util, y[util].main)
+        def tmp(self):
+            print "Usage: " + util
+            print "%s: %s" % (util, attutil[1][util])
+        setattr(utilmenu, "help_" + util, tmp)
+    for att in attutil[0].keys():
+        attmenu = attMenu()
+        setattr(attmenu, "do_" + att, y[att].main)
+        def temp(self):
+            print "Usage: %s" % att
+            print "%s: %s" % (att, attutil[0][att])
+        setattr(attmenu, "help_" + att, temp)
+    return [attmenu, utilmenu]
+
+menus = loadFunc(attutilL)
 
 class menu(cmd.Cmd):
     def __init__(self):
