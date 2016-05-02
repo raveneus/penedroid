@@ -78,7 +78,7 @@ class ftpanonMenu(cmd.Cmd):
     print "start: start the attempt"
   def do_show(self, args):
     if args != "options":
-      print"*** Unknown argument: " + args
+      print "*** Unknown argument: " + args
       return
     print "Options for ftpanon:"
     print "========================"
