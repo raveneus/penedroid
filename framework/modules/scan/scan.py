@@ -111,6 +111,6 @@ class scanMenu(cmd.Cmd):
         print "show options: show the variables, current value, and description"
 def main():
     scanmenu = scanMenu()
-    scanmenu.cmdloop()
+    scanmenu.cmdloop("pdf-console:" + upmenu + "(scan)% ")
 if __name__ == __main__:
     main()
