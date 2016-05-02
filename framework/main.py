@@ -44,7 +44,7 @@ class menu(cmd.Cmd):
         if args:
             print "*** Argument number: need 0"
             return
-        util = utilMenu()
+        util = menus[1]
         util.cmdloop(self.prompt[:-1] + ":util% ")
     def help_util(self):
         print "Usage: util"
@@ -61,7 +61,7 @@ class menu(cmd.Cmd):
         if args:
             print "*** Argument number: need 0"
             return
-        att = attMenu()
+        att = menus[0]
         att.cmdloop(self.prompt[:-1] + ":attack% ")
     def help_attack(self):
         print "Usage: attack"
@@ -73,14 +73,6 @@ class menu(cmd.Cmd):
         print "cmd    command to execute"
         print "shell: execute a command in a shell"
         print "Note: it is acceptable to replace \"shell\" with \"!\"."
-    def do_spawn(self, args):
-        if args:
-            print "*** Argument number: need 0"
-            return
-        os.system("/system/bin/sh")
-    def help_spawn(self):
-        print "Usage: spawn"
-        print "spawn: spawn a shell"
     def do_port(self, args):
         s = socket(AF_INET, SOCK_STREAM)
         try:
@@ -101,4 +93,18 @@ class utilMenu(cmd.Cmd):
         print "Usage: help [cmd]"
         print "cmd    the command to get help on"
         print "help: show help on a command or list commands"
-
+    def do_spawn(self, args):
+        if args:
+            print "*** Argument number: need 0"
+            return
+        os.system("/system/bin/sh")
+    def help_spawn(self):
+        print "Usage: spawn"
+        print "spawn: spawn a shell"
+class attMenu(cmd.Cmd):
+    def __init__(self):
+        cmd.Cmd.__init__(self)
+    def help_help(self):
+        print "Usage: help [cmd]"
+        print "cmd    the command to get help on"
+        print "help: show help on a command or list commands"
