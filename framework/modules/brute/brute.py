@@ -39,7 +39,12 @@ class bruteMenu(cmd.Cmd):
     if args != "options":
       print "*** Unknown argument: " + args
       return
-    
+    print "Options for brute:"
+    print "========================"
+    print "pwdfile    " + self.pwdfile[0] + "    password file to try passwords from"
+    print "single-username    " + self.singleUsername[0] + "    True/False (use one username)"
+    print "user    " + self.user[0] + "    username to crack passwords for"
+    print "userfile    " + self.userfile[0] + "    file with usernames in them"
   def help_show(self):
     print "Usage: show options"
     print "show options: show the variables, current values, and description"
