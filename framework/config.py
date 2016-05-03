@@ -1,7 +1,16 @@
 import ConfigParser
 import imp
 global cwd
-import token.py
+
+def getTokenColon(line):
+    token = ""
+    for letter in line:
+        if letter != ":":
+            token += letter
+        else:
+            break
+    return token
+
 f = open("config/cwd.txt", "r")
 cwd = f.read()
 f.close()
@@ -14,14 +23,14 @@ def getConfig(configFile):
     conf = [att, util]
     return conf
 def load(att, util):
-    for module in att:
-        m = imp.load_source(module, cwd + "/modules/" + module + "/" + module + ".py")
-        if y[module]:
+    for module, info in att.items():
+        m = imp.load_source(module, cwd + "/modules/" + module + "/" + getTokenColon(info) + ".py")
+        if y[getTokenColon(info)]:
             print "[-] Two modules with the same name."
         else:
             y[module] = m
-    for module in util:
-        m = imp.load_source(module, cwd + "/modules/" + module)
+    for module in util.keys():
+        m = imp.load_source(module, cwd + "/modules/" + module + "/" + module + ".py")
         if y[module]:
             print "[-] Two modules with the same name."
         else:

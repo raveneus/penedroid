@@ -28,13 +28,14 @@ class ftpanonMenu(cmd.Cmd):
     if var == "ip" or var == "IP":
       self.ip[0] = val
     elif var == "tls" or var == "TLS":
-      if eval(val) == True or eval(val) == False:
+      if eval(val) != True and eval(val) != False:
         print "*** Value not expected type: boolean needed, but found " + type(eval(val))
         return
       self.tls[0] = eval(val)
     else:
       print "*** Variable not found: " + var
       return
+    print "[*]" + var + " => " + val
   def help_set(self):
     print "Usage: set [var] = [val]"
     print "var    variable to set"
@@ -53,6 +54,9 @@ class ftpanonMenu(cmd.Cmd):
     if args:
       print "*** Argument number: needed 0"
       return
+    for let in "abcdefghijklmnopqrstuvwxyz":
+        if let in self.ip[0]:
+            self.ip[0] = gethostbyname(self.ip[0])
     if self.tls[0] != True:
       ftp = ftplib.FTP(self.ip[0])
       try:
@@ -74,17 +78,17 @@ class ftpanonMenu(cmd.Cmd):
     print "start: start the attempt"
   def do_show(self, args):
     if args != "options":
-      print"*** Unknown argument: " + args
+      print "*** Unknown argument: " + args
       return
-    print "Options for AnonTest:"
+    print "Options for ftpanon:"
     print "========================"
-    print "ip    " + self.ip[0] + "    ip of the target"
+    print "ip    " + self.ip[0] + "    ip or hostname of the target"
     print "tls   " + self.tls[0] + "    True/False (encrypted)"
   def help_show(self):
     print "Usage: show options"
     print "show options: show the variables, current value, and description"
 def main():
   ftpAnonMenu = ftpanonMenu()
-  ftpAnonMenu.cmdloop("pdf-console:" + upmenu + "(TestAnon)% ")
+  ftpAnonMenu.cmdloop("pdf-console:" + upmenu + "(ftpanon)% ")
 if __name__ == __main__:
   main()
