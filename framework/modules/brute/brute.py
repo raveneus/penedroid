@@ -73,7 +73,7 @@ class bruteMenu(cmd.Cmd):
     print "show options: show the variables, current values, and descriptions"
   def do_set(self, args):
       var = getToken(args)
-      val = var[3:]
+      val = args[len(var) + 3:]
       if var == "pwdfile":
           self.passwdfile[0] = val
       elif var == "single-username":
