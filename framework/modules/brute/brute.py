@@ -82,6 +82,7 @@ class bruteMenu(cmd.Cmd):
           else:
               print "*** Value not expected type: boolean needed, but found: " + type(eval(val))
               return
+      print "[*]%s => %s" % (var, val)
       elif var == "user":
           self.user[0] = val
       elif var == "userfile":
