@@ -92,8 +92,13 @@ class bruteMenu(cmd.Cmd):
           print "*** Variable not found: " + var
           return
   def help_set(self):
-    print "Usage: set [var] = [val]"
-    print "var    variable to set"
-    print "val    value to set variable to"
-    print "set: set a variable to a value"
-    print "Note: you MUST use it exactly as shown: no set [var]=[val]!"
+      print "Usage: set [var] = [val]"
+      print "var    variable to set"
+      print "val    value to set variable to"
+      print "set: set a variable to a value"
+      print "Note: you MUST use it exactly as shown: no set [var]=[val]!"
+def main():
+    brutemenu = bruteMenu()
+    brutemenu.cmdloop("pdf-console " + upmenu + "(brute)% ")
+if __name__ == __main__:
+    main()
