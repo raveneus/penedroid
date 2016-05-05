@@ -70,7 +70,7 @@ class bruteMenu(cmd.Cmd):
     print "userfile    " + self.userfile[0] + "    file with usernames in them"
   def help_show(self):
     print "Usage: show options"
-    print "show options: show the variables, current values, and description"
+    print "show options: show the variables, current values, and descriptions"
   def do_set(self, args):
       var = getToken(args)
       val = var[3:]
