@@ -25,7 +25,7 @@ class bruteMenu(cmd.Cmd):
     print "cmd    the command to get help on"
     print "help: show help on a command or list commands"
   def do_start(self, args):
-        for let in "abcdefghijklmnopqrstuvwxyz":
+      for let in "abcdefghijklmnopqrstuvwxyz":
           if let in self.host[0]:
               self.host[0] = gethostbyname(self.host[0])
       ftp = ftplib.FTP(self.host[0])
@@ -46,6 +46,7 @@ class bruteMenu(cmd.Cmd):
                       print "[+]Login succeeded with %s, %s" % (line, passwd)
                   except:
                       pass
+      ftp.quit()
   def help_start(self):
     print "Usage: start"
     print "start: start the attempt"
