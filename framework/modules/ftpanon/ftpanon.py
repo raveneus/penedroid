@@ -64,6 +64,7 @@ class ftpanonMenu(cmd.Cmd):
         print "[+]FTP anonymous login (user:anonymous&pass:anonymous@) successful on " + self.ip[0] + "!"
       except:
         print "[-]FTP anonymous login failed on " + self.ip[0] + "! :("
+      ftp.quit()
     elif self.tls[0] == True:
       ftps = ftplib.FTP_TLS(self.ip[0])
       try:
@@ -71,6 +72,7 @@ class ftpanonMenu(cmd.Cmd):
         print "[+]FTP anonymous login (user:anonymous&pass:anonymous@) successful on " + self.ip[0] + "!"
       except:
         print "[-]FTP anonymous login failed on " + self.ip[0] + "! :("
+      ftps.quit()
     else:
       print "*** Unknown error"
   def help_start(self):
