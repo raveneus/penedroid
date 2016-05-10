@@ -50,7 +50,7 @@ class pcmanPutOverflowMenu(cmd.Cmd):
     print "========================"
     print "user    %s    the user to login in as" % self.user[0]
     print "passwd    %s    the password of the user" % self.passwd[0]
-    print "host    %s    the IP of the target"
+    print "host    %s    the IP of the target" % self.host[0]
   def help_exit(self):
     print "Usage: exit"
     print "exit: exit the pcman_put_overflow context"
