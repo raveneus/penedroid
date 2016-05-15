@@ -1,6 +1,6 @@
 import ftplib
 import cmd
-import random
+from random import randint
 from socket import AF_INET, SOCK_STREAM, socket, gethostbyname
 
 def getToken(line):
@@ -45,6 +45,8 @@ class pcmanPutOverflowMenu(cmd.Cmd):
     print "Usage: show options"
     print "show options: show the variables, current values, and descriptions"
   def do_show(self, args):
+    if args != "options":
+      print "*** Unknown argument: " + args
     print "Target: Windows XP SP3 English"
     print "Options for pcman_put_overflow:"
     print "========================"
@@ -56,6 +58,7 @@ class pcmanPutOverflowMenu(cmd.Cmd):
     print "exit: exit the pcman_put_overflow context"
   def do_exit(self, args):
     if args:
+      print "*** Argument number: needed 0"
       return
     return True
   def help_start(self):
@@ -65,7 +68,7 @@ class pcmanPutOverflowMenu(cmd.Cmd):
     for let in "abcdefghijklmnopqrstuvwxyz":
       if let in self.host[0]:
         self.host[0] = gethostbyname(self.host[0])
-      ftp = ftplib.FTP(self.host[0])
+    ftp = ftplib.FTP(self.host[0])
     try:
      ftp.login(self.user[0], self.passwd[0])
      print "[+]Login successful on %s" % self.host[0]
