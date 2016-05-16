@@ -1,6 +1,10 @@
 class Exploit(cmd.Cmd):
   def __init__(self):
+    cmd = __import__("cmd")
     cmd.Cmd.__init__(self)
+    self.os = __import__("os")
+    self.ftplib = __import__("ftplib")
+    _tmp = __import__("random", globals(), locals(), ['randint'])
     self.variables = {"":""}
     self.descriptions = {"":""}
     self.name = [""]
