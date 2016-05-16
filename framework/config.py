@@ -14,7 +14,8 @@ def getTokenColon(line):
 f = open("config/cwd.txt", "r")
 cwd = f.read()
 f.close()
-global y = {}
+global y
+y = {}
 parser = ConfigParser.ConfigParser()
 def getConfig(configFile):
     parser.read(configFile)
