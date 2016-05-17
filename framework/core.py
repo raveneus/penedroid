@@ -1,5 +1,5 @@
 class Exploit(cmd.Cmd):
-  def __init__(self, variables, descriptions, name, target, payload):
+  def __init__(self, name, target, payload, variables, descriptions):
     cmd = __import__("cmd")
     cmd.Cmd.__init__(self)
     self.os = __import__("os")
@@ -16,6 +16,10 @@ class Exploit(cmd.Cmd):
     self.name =  name #[""] name of exploit
     self.target = target #[""] target ex: Windows 7 SP1 x86
     self.payload =  payload #[""] name of payload
+  def rand(self, bytes):
+    for a in range(0, bytes):
+      tmp = "\\x" + char[randint(0, 15)] + char[randint(0, 15)]
+      return tmp.decode('string_escape')
   def help_help(self):
     print "Usage: help [cmd]"
     print "cmd    the command to get help on"
@@ -65,9 +69,6 @@ class Exploit(cmd.Cmd):
     print "[*]Generating payload..."
     char = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "a", "b", "c", "d", "e", "f"]
     payload = ""
-    for a in range(0, 2017):
-      tmp = "\\x" + char[randint(0, 15)] + char[randint(0, 15)]
-      payload += tmp.decode('string_escape')
     f = open("../../../payloads/%s.shell" % self.payload, "r")
     for line in f.readlines():
       payload += line[:-1].decode('string_escape')
