@@ -20,6 +20,10 @@ class Exploit(cmd.Cmd):
     for a in range(0, bytes):
       tmp = "\\x" + char[randint(0, 15)] + char[randint(0, 15)]
       return tmp.decode('string_escape')
+  def check(self):
+    for let in "abcdefghijklmnopqrstuvwxyz":
+      if let in self.variables["host"]:
+        self.variables["host"] = self.gethostbyname(self.variables["host"])
   def help_help(self):
     print "Usage: help [cmd]"
     print "cmd    the command to get help on"
@@ -63,9 +67,7 @@ class Exploit(cmd.Cmd):
     print "Usage: start"
     print "start: start the attack"
   def do_start(self, args):
-    for let in "abcdefghijklmnopqrstuvwxyz":
-      if let in self.variables["host"]:
-        self.variables["host"] = self.gethostbyname(self.variables["host"])
+    self.check()
     print "[*]Generating payload..."
     char = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "a", "b", "c", "d", "e", "f"]
     payload = ""
