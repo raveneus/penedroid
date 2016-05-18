@@ -31,7 +31,22 @@ class Exploit(cmd.Cmd):
     for line in f.readlines():
       payload += line[:-1].decode('string_escape')
     f.close()
-  return payload
+    return payload
+  def generate(self):
+    pass #overwrite this
+  def deliver(self, payload):
+    pass #overwrite this
+  def init(self):
+    self.check_host()
+    print "[*]Generating payload..."
+    payload = ""
+    return payload
+  def init_deliver(self):
+    print "[+]Payload generated."
+    print "[*]Sending payload of size: " + str(len(payload.encode('utf-8')))
+    s = self.socket(self.AF_INET, self.SOCK_STREAM)
+    s.connect((self.variables["host"], 21))
+    return s
   def help_help(self):
     print "Usage: help [cmd]"
     print "cmd    the command to get help on"
@@ -75,14 +90,9 @@ class Exploit(cmd.Cmd):
     print "Usage: start"
     print "start: start the attack"
   def do_start(self, args):
-    self.check_host()
-    print "[*]Generating payload..."
-    payload = ""
-    print "[+]Payload generated."
-    print "[*]Sending payload of size: " + str(len(payload.encode('utf-8')))
-    s = self.socket(self.AF_INET, self.SOCK_STREAM)
-    s.connect((self.variables["host"], 21))
-    s.close()
+    payload = self.init()
+    payload = self.generate(payload)
+    self.deliver(payload)
     print "[+]Payload sent."
     print "[*]Connecting..."
-    os.system("telnet %s 7066" % self.variables["host"]) 
+    self.os.system("telnet %s 7066" % self.variables["host"]) 
