@@ -16,6 +16,14 @@ class Exploit(cmd.Cmd):
     self.name =  name #[""] name of exploit
     self.target = target #[""] target ex: Windows 7 SP1 x86
     self.payload =  payload #[""] name of payload
+  def getToken(self, line):
+    token = ""
+    for letter in line:
+      if letter != " ":
+        token += letter
+      else:
+        break
+    return token
   def connect(self):
     s = self.socket(self.AF_INET, self.SOCK_STREAM)
     s.connect((self.variables["host"], 21))
