@@ -16,6 +16,8 @@ class Exploit(cmd.Cmd):
     self.name =  name #[""] name of exploit
     self.target = target #[""] target ex: Windows 7 SP1 x86
     self.payload =  payload #[""] name of payload
+  def check(self):
+    pass #overwrite this
   def rand(self, bytes):
     char = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "a", "b", "c", "d", "e", "f"]
     for a in range(0, bytes):
@@ -86,6 +88,19 @@ class Exploit(cmd.Cmd):
       print "*** Argument number: needed 0"
       return
     return True
+  def help_check(self):
+    print "Usage: check"
+    print "check: check if target is vulnerable. Some modules do not support this."
+  def do_check(self, args):
+    if args:
+      print "*** Number of arguments: needed 0"
+      return
+    if self.check[0] == False:
+      print "[-]This module doesn't support the check function."
+    elif self.check[0] == True:
+      self.check()
+    else:
+      print "*** Internal Error: self.check[0] is not set to a boolean value."
   def help_start(self):
     print "Usage: start"
     print "start: start the attack"
