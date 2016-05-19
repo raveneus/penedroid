@@ -16,6 +16,12 @@ class Exploit(cmd.Cmd):
     self.name =  name #[""] name of exploit
     self.target = target #[""] target ex: Windows 7 SP1 x86
     self.payload =  payload #[""] name of payload
+  def connect(self):
+    s = self.socket(self.AF_INET, self.SOCK_STREAM)
+    s.connect((self.variables["host"], 21))
+    return s
+  def disconnect(self, s):
+    s.close()
   def check(self):
     pass #overwrite this
   def rand(self, bytes):
