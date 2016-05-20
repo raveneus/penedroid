@@ -33,10 +33,12 @@ class Exploit(cmd.Cmd):
   def check(self):
     pass #overwrite this
   def rand(self, bytes):
+    p = ""
     char = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "a", "b", "c", "d", "e", "f"]
     for a in range(0, bytes):
       tmp = "\\x" + char[randint(0, 15)] + char[randint(0, 15)]
-      return tmp.decode('string_escape')
+      p += tmp.decode('string_escape')
+    return p
   def check_host(self):
     for let in "abcdefghijklmnopqrstuvwxyz":
       if let in self.variables["host"]:
