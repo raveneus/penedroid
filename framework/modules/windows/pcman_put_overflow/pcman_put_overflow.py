@@ -1,18 +1,5 @@
-import ftplib
-import cmd
-from random import randint
-from socket import AF_INET, SOCK_STREAM, socket, gethostbyname
-
-def getToken(line):
-    token = ""
-    for letter in line:
-        if letter != " ":
-            token += letter
-        else:
-            break
-    return token
-
-class pcmanPutOverflowMenu(cmd.Cmd):
+import os
+class pcmanPutOverflowMenu():
   def __init__(self):
     cmd.Cmd.__init__(self)
     self.user = ["anonymous"]
