@@ -61,13 +61,16 @@ finally
 =======
 Next, you define a main method outside of your exploit class that looks nearly exactly like:  
 `def main():`  
-`    menu = exploitMenuHere(nameHere, targetHere, payloadHere, variablesHere, descriptionsHere)`  
+`    menu = exploitMenuHere(nameHere, targetHere, payloadHere, variablesHere, descriptionsHere, checkHere)`  
 `    menu.cmdloop("pdf-console attack(name)% ")`  
-, where the name, target, and payload are all strings and variables is a dictionary like `{"host":"", "user":""}` and descriptions is a dictionary like `{"host":"the ip of the target"}`.
+, where the name, target, and payload are all strings and variables is a dictionary like `{"host":"", "user":""}`, descriptions is a dictionary like `{"host":"the ip of the target"}`, and check is an array that is either `[True]` or `[False]`, which denote whether the module supports the check function.
 Last but not least, you define the part that will let it run as a stand-alone script:  
 `if __name__ == '__main__':`  
 `    main()`  
 
 Advanced
 ========
-Some of you out there might want to write modules that don't fit this pattern. Okay. Go ahead. Just keep the cmd functions the same, except possibly for do_start. Good luck!
+Some of you out there might want to write modules that don't fit this pattern. Okay. Go ahead. Just keep the cmd functions the same, except possibly for do_start. 
+
+One last thing, the check function can and should be overwritten in the subclass if you support the check function, which means if you can check and see if the target is vulnerable to the attack.
+Good luck!
