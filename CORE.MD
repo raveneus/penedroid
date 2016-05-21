@@ -51,7 +51,7 @@ Now you have to define the generate and deliver methods.
 
 generate
 ========
-The generate function should be defined like this: `def generate(self, payload)`. In it you define how to, well, *generate* your payload. This is required, even if it just does `return ""`.
+The generate function should be defined like this: `def generate(self, payload)`. In it you define how to, well, *generate* your payload. This is required, even if it just does `return ""`. Remember to return the generated payload.
 
 deliver
 =======
