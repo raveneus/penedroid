@@ -11,7 +11,6 @@ class pcmanPutOverflowMenu(core.Exploit):
   def deliver(self, p)
     self.init_deliver()
     s = self.connect()
-    s.recv(1024)
     s.send("USER " + self.variables["user"]
     s.recv(1024)
     s.send("PASS " + self.variables["passwd"]
