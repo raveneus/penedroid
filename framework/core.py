@@ -62,9 +62,6 @@ class Exploit(cmd.Cmd):
   def init_deliver(self):
     print "[+]Payload generated."
     print "[*]Sending payload of size: " + str(len(payload.encode('utf-8')))
-    s = self.socket(self.AF_INET, self.SOCK_STREAM)
-    s.connect((self.variables["host"], 21))
-    return s
   def help_help(self):
     print "Usage: help [cmd]"
     print "cmd    the command to get help on"
