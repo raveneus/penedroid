@@ -33,6 +33,7 @@ class Exploit(cmd.Cmd):
   def connect(self):
     s = self.socket(self.AF_INET, self.SOCK_STREAM)
     s.connect((self.variables["host"], 21))
+    self.banner[0] = s.recv(1024)
     return s
   def disconnect(self, s):
     s.close()
