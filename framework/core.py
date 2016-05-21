@@ -1,5 +1,5 @@
 class Exploit(cmd.Cmd):
-  def __init__(self, name, target, payload, variables, descriptions):
+  def __init__(self, name, target, payload, variables, descriptions, check=[False]):
     cmd = __import__("cmd")
     cmd.Cmd.__init__(self)
     self.os = __import__("os")
@@ -16,6 +16,7 @@ class Exploit(cmd.Cmd):
     self.name =  name #[""] name of exploit
     self.target = target #[""] target ex: Windows 7 SP1 x86
     self.payload =  payload #[""] name of payload
+    self.check = check
   def getToken(self, line):
     token = ""
     for letter in line:
