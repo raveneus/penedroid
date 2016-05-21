@@ -17,6 +17,7 @@ class Exploit(cmd.Cmd):
     self.target = target #[""] target ex: Windows 7 SP1 x86
     self.payload =  payload #[""] name of payload
     self.check = check
+    self.banner = [""]
   def getToken(self, line):
     token = ""
     for letter in line:
