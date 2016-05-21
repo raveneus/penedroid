@@ -18,6 +18,10 @@ class Exploit(cmd.Cmd):
     self.payload =  payload #[""] name of payload
     self.check = check
     self.banner = [""]
+  def check_vuln(self):
+    print "[+]The host %s is vulnerable!" % self.variables["host"]
+  def check_safe(self):
+    print "[-]The host %s isn't vulnerable. :(" % self.variables["host"]
   def getToken(self, line):
     token = ""
     for letter in line:
