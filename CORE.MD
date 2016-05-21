@@ -33,10 +33,10 @@ get_shellcode takes no arguments (excluding `self`) and returns the shellcode fo
 # How to write an exploit module
 
 Well, first you have to start off your exploit in the file called framework/modules/osHere/nameHere/nameHere.py with  
-`import os, sys`
-`sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', '..'))`
-`import core`
-`class exploitNameMenu(core.Exploit)`
+`import os, sys`  
+`sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', '..'))`  
+`import core`  
+`class exploitNameMenu(core.Exploit)`  
  in it and the spaces in the name replaced by commas.  
  EX: `framework/modules/windows/pcman_put_overflow/pcman_put_overflow.py`
 
@@ -60,13 +60,13 @@ The deliver function should be defined like this: `def deliver(self, payload)`. 
 finally
 =======
 Next, you define a main method outside of your exploit class that looks nearly exactly like:  
-`def main():`
-`    menu = exploitMenuHere(nameHere, targetHere, payloadHere, variablesHere, descriptionsHere)`
-`    menu.cmdloop("pdf-console attack(name)% ")`
+`def main():`  
+`    menu = exploitMenuHere(nameHere, targetHere, payloadHere, variablesHere, descriptionsHere)`  
+`    menu.cmdloop("pdf-console attack(name)% ")`  
 , where the name, target, and payload are all strings and variables is a dictionary like `{"host":"", "user":""}` and descriptions is a dictionary like `{"host":"the ip of the target"}`.
 Last but not least, you define the part that will let it run as a stand-alone script:  
-`if __name__ == '__main__':`
-`    main()`
+`if __name__ == '__main__':`  
+`    main()`  
 
 Advanced
 ========
