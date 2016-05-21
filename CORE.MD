@@ -72,5 +72,5 @@ Advanced
 ========
 Some of you out there might want to write modules that don't fit this pattern. Okay. Go ahead. Just keep the cmd functions the same, except possibly for do_start. 
 
-One last thing, the check function can and should be overwritten in the subclass if you support the check function, which means if you can check and see if the target is vulnerable to the attack.
+One last thing, the check function can and should be overwritten in the subclass if you support the check function, which means if you can check and see if the target is vulnerable to the attack. If the server is vulnerable, call `self.check_vuln()`, and if the server isn't vulnerable, call `self.check_safe()`
 Good luck!
