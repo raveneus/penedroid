@@ -20,7 +20,7 @@ class pcmanPutOverflowMenu(core.Exploit):
     self.disconnect(s)
   def check(self):
     self.disconnect(self.connect())
-    if self.buffer[0] == "220 PCMan's FTP Server 2.0":
+    if "220 PCMan's FTP Server 2.0" in self.buffer[0]:
       self.check_vuln()
     else:
       self.check_safe()
