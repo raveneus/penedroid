@@ -1,46 +1,4 @@
-import ftplib
-import cmd
-from random import randint
-from socket import AF_INET, SOCK_STREAM, socket, gethostbyname
-
-def getToken(line):
-    token = ""
-    for letter in line:
-        if letter != " ":
-            token += letter
-        else:
-            break
-    return token
-
 class freeftpdPassOverflowMenu(cmd.Cmd):
-  def __init__(self):
-    cmd.Cmd.__init__(self)
-    self.user = ["anonymous"]
-    self.host = ["ftp.debian.org"]
-  def help_help(self):
-    print "Usage: help [cmd]"
-    print "cmd    the command to get help on"
-    print "help: show help on a command or list commands"
-  def help_set(self):
-    print "Usage: set [var] = [val]"
-    print "var    variable to set"
-    print "val    value to set variable to"
-    print "set: set a variable to a value"
-    print "Note: you MUST use it exactly as shown: no set [var]=[val]!"
-  def do_set(self, args):
-    var = getToken(args)
-    val = args[len(var) + 3:]
-    if var == "user":
-      self.user[0] = val
-    elif var == "host":
-      self.host[0] = val
-    else:
-      print "*** Variable not found %s" % var
-      return
-    print "[*]%s => %s" % (var, val)
-  def help_show(self):
-    print "Usage: show options"
-    print "show options: show the variables, current values, and descriptions"
   def do_show(self, args):
     if args != "options":
       print "*** Unknown argument: " + args
