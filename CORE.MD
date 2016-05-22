@@ -5,6 +5,7 @@ The Core contains a single class: Exploit. Exploit contains the following standa
 * getToken
 * rand
 * get_shellcode
+* rand_text
 
 # Documentation
 connect
