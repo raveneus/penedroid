@@ -4,13 +4,16 @@ class Exploit(cmd.Cmd):
     cmd.Cmd.__init__(self)
     self.os = __import__("os")
     self.ftplib = __import__("ftplib")
-    _tmp = __import__("random", globals(), locals(), ['randint'])
+    _tmp = __import__("random", globals(), locals(), ['randint', 'choice'])
+    self.choice = _tmp.choice
     self.randint = _tmp.randint
     _tmp = __import__("socket", globals(), locals(), ['socket', 'AF_INET', 'SOCK_STREAM', 'gethostbyname'])
     self.socket = _tmp.socket
     self.AF_INET = _tmp.AF_INET
     self.SOCK_STREAM = _tmp.SOCK_STREAM
     self.gethostbyname = _tmp.gethostbyname
+    _tmp = __import__("strings", globals(), locals(), ['letters'])
+    self.letters = _tmp.letters
     self.variables = variables #{"":""}  list of variables
     self.descriptions = descriptions #{"":""} descriptions
     self.name =  name #[""] name of exploit
@@ -18,6 +21,8 @@ class Exploit(cmd.Cmd):
     self.payload =  payload #[""] name of payload
     self.check = check
     self.banner = [""]
+  def rand_text(self, length):
+    return "".join( [random.choice(self.letters) for i in xrange(length)] )
   def check_vuln(self):
     print "[+]The host %s is vulnerable!" % self.variables["host"]
   def check_safe(self):
