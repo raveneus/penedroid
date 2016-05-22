@@ -12,7 +12,7 @@ class Exploit(cmd.Cmd):
     self.AF_INET = _tmp.AF_INET
     self.SOCK_STREAM = _tmp.SOCK_STREAM
     self.gethostbyname = _tmp.gethostbyname
-    _tmp = __import__("strings", globals(), locals(), ['letters'])
+    _tmp = __import__("string", globals(), locals(), ['letters'])
     self.letters = _tmp.letters
     self.variables = variables #{"":""}  list of variables
     self.descriptions = descriptions #{"":""} descriptions
