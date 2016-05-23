@@ -1,6 +1,6 @@
+import cmd
 class Exploit(cmd.Cmd):
   def __init__(self, name, target, payload, variables, descriptions, check=[False]):
-    cmd = __import__("cmd")
     cmd.Cmd.__init__(self)
     self.os = __import__("os")
     self.ftplib = __import__("ftplib")
