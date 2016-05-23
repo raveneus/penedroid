@@ -26,13 +26,13 @@ def getConfig(configFile):
 def load(att, util):
     for module, info in att.items():
         m = imp.load_source(module, cwd + "/modules/" + module + "/" + getTokenColon(info) + ".py")
-        if y[getTokenColon(info)]:
+        if getTokenColon(info) in y.keys():
             print "[-] Two modules with the same name."
         else:
-            y[module] = m
+            y[getTokenColon(info)] = m
     for module in util.keys():
         m = imp.load_source(module, cwd + "/modules/" + module + "/" + module + ".py")
-        if y[module]:
+        if module in y.keys():
             print "[-] Two modules with the same name."
         else:
             y[module] = m
