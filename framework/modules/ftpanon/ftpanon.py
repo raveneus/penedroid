@@ -1,4 +1,4 @@
-import ftblib
+import ftplib
 import cmd
 
 
@@ -92,5 +92,5 @@ class ftpanonMenu(cmd.Cmd):
 def main():
   ftpAnonMenu = ftpanonMenu()
   ftpAnonMenu.cmdloop("pdf-console:" + upmenu + "(ftpanon)% ")
-if __name__ == __main__:
+if __name__ == '__main__':
   main()
