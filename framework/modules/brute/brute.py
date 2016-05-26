@@ -104,4 +104,4 @@ def main(s):
     brutemenu = bruteMenu()
     brutemenu.cmdloop()
 if __name__ == '__main__':
-    main()
+    main("")
