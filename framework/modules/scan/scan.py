@@ -112,5 +112,5 @@ class scanMenu(cmd.Cmd):
 def main():
     scanmenu = scanMenu()
     scanmenu.cmdloop("pdf-console:" + upmenu + "(scan)% ")
-if __name__ == __main__:
+if __name__ == '__main__':
     main()
