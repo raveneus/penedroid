@@ -50,7 +50,7 @@ class scanMenu(cmd.Cmd):
         print "cmd    command to get help on"
         print "help: show help on a command or list commands"
     def do_set(self, args):
-        if !args:
+        if len(args) < 1:
             self.help_set()
             return
         var = getToken(args)
