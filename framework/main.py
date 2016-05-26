@@ -68,7 +68,7 @@ class menu(cmd.Cmd):
             print "*** Argument number: need 0"
             return
         util = menus[2]
-        util.cmdloop("pdf-console:util% ")
+        util.cmdloop()
     def help_util(self):
         print "Usage: util"
         print "util: change into the utility context"
