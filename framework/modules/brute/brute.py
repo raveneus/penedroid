@@ -15,6 +15,7 @@ upmenu = "util"
 class bruteMenu(cmd.Cmd):
   def __init__(self):
     cmd.Cmd.__init__(self)
+    self.prompt = "pdf-console:util(brute)% "
     self.passwdfile = ["rockyou.txt"]
     self.singleUsername = [True]
     self.user = ["admin"]
@@ -99,8 +100,8 @@ class bruteMenu(cmd.Cmd):
       print "val    value to set variable to"
       print "set: set a variable to a value"
       print "Note: you MUST use it exactly as shown: no set [var]=[val]!"
-def main():
+def main(s):
     brutemenu = bruteMenu()
-    brutemenu.cmdloop("pdf-console " + upmenu + "(brute)% ")
+    brutemenu.cmdloop()
 if __name__ == '__main__':
     main()
