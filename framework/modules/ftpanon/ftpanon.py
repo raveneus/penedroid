@@ -16,6 +16,7 @@ upmenu = "util"
 class ftpanonMenu(cmd.Cmd):
   def __init__(self):
     cmd.Cmd.__init__(self)
+    self.prompt = "pdf-console:util(ftpanon)% "
     self.ip = ["ftp.debian.org"]
     self.tls = ["False"]
   def help_help(self):
@@ -89,8 +90,8 @@ class ftpanonMenu(cmd.Cmd):
   def help_show(self):
     print "Usage: show options"
     print "show options: show the variables, current value, and description"
-def main():
+def main(s):
   ftpAnonMenu = ftpanonMenu()
   ftpAnonMenu.cmdloop("pdf-console:" + upmenu + "(ftpanon)% ")
 if __name__ == '__main__':
-  main()
+  main("")
