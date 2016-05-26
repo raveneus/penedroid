@@ -83,7 +83,6 @@ class bruteMenu(cmd.Cmd):
           else:
               print "*** Value not expected type: boolean needed, but found: " + type(eval(val))
               return
-      print "[*]%s => %s" % (var, val)
       elif var == "user":
           self.user[0] = val
       elif var == "userfile":
@@ -93,6 +92,7 @@ class bruteMenu(cmd.Cmd):
       else:
           print "*** Variable not found: " + var
           return
+      print "[*]%s => %s" % (var, val)
   def help_set(self):
       print "Usage: set [var] = [val]"
       print "var    variable to set"
@@ -102,5 +102,5 @@ class bruteMenu(cmd.Cmd):
 def main():
     brutemenu = bruteMenu()
     brutemenu.cmdloop("pdf-console " + upmenu + "(brute)% ")
-if __name__ == __main__:
+if __name__ == '__main__':
     main()
