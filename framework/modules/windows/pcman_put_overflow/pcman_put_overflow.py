@@ -23,8 +23,8 @@ class pcmanPutOverflowMenu(core.Exploit):
       self.check_vuln()
     else:
       self.check_safe()
-def main():
+def main(s):
   pcmanputoverflowmenu = pcmanPutOverflowMenu('pcman_put_overflow', 'Windows XP SP3 English', 'pcman_put.shell', {'user':'anonymous', 'passwd':'anonymous@example.com', 'host':''}, {'user':'the user to login as', 'passwd':'the password to use to login', 'host':'the ip of the target'}, [True])
-  pcmanputoverflowmenu.cmdloop("pdf-console attack(pcman_put_overflow)% ")
+  pcmanputoverflowmenu.cmdloop()
 if __name__ == '__main__':
-  main()
+  main("")
