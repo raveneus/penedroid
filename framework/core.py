@@ -2,6 +2,7 @@ import cmd
 class Exploit(cmd.Cmd):
   def __init__(self, name, target, payload, variables, descriptions, check=[False]):
     cmd.Cmd.__init__(self)
+    self.prompt = "pdf-console:attack(%s)% " % name
     self.os = __import__("os")
     self.ftplib = __import__("ftplib")
     _tmp = __import__("random", globals(), locals(), ['randint', 'choice'])
