@@ -1,7 +1,7 @@
 import cmd
 from socket import socket, gethostbyname, AF_INET, SOCK_STREAM
 import threading
-import sys.stdout
+from sys import stdout
 
 class scanThread(threading.Thread):
     def __init__(self, ip, stdout):
