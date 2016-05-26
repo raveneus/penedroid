@@ -30,15 +30,16 @@ y = config.y
 class attMenu(cmd.Cmd):
     def __init__(self):
         cmd.Cmd.__init__(self)
+        self.prompt = "pdf-console:attack% "
     def help_help(self):
         print "Usage: help [cmd]"
         print "cmd    the command to get help on"
         print "help: show help on a command or list commands"
     def do_os(self, args):
         if args == "linux":
-            menus[0].cmdloop("pdf-console:attack(linux)% ")
+            menus[0].cmdloop()
         elif args == "windows":
-            menus[1].cmdloop("pdf-console:attack(windows)% ")
+            menus[1].cmdloop()
         else:
             print "*** Unknown argument: %s" % args
             return
@@ -84,7 +85,7 @@ class menu(cmd.Cmd):
             print "*** Argument number: need 0"
             return
         att = attMenu()
-        att.cmdloop("pdf-console:attack% ")
+        att.cmdloop()
     def help_attack(self):
         print "Usage: attack"
         print "attack: switch into the attack context"
@@ -111,6 +112,7 @@ class menu(cmd.Cmd):
 class utilMenu(cmd.Cmd):
     def __init__(self):
         cmd.Cmd.__init__(self)
+        self.prompt = "pdf-console:util% "
     def help_help(self):
         print "Usage: help [cmd]"
         print "cmd    the command to get help on"
@@ -134,6 +136,7 @@ class utilMenu(cmd.Cmd):
 class linuxMenu(cmd.Cmd):
     def __init__(self):
         cmd.Cmd.__init__(self)
+        self.prompt = "pdf-console:attack(linux)% "
     def do_exit(self, args):
         if args:
             print "*** Number of arguments: needed 0"
@@ -145,6 +148,7 @@ class linuxMenu(cmd.Cmd):
 class windowsMenu(cmd.Cmd):
     def __init__(self):
         cmd.Cmd.__init__(self)
+        self.prompt = "pdf-console:attack(windows)% "
     def do_exit(self, args):
         if args:
             print "*** Number of arguments: needed 0"
@@ -169,14 +173,14 @@ def loadFunc(attutil):
         name = getTokenColon(info)
         #tests to see what os is it and load into appropriate menu
         if getTokenColon(info[len(getTokenColon(info)) + 1:]) == "linux":
-            setattr(nixmenu, "do_" + name, y[att].main)
+            setattr(nixmenu, "do_" + name, y[name].main)
             def temp(self):
                 print "Usage: %s" % name
                 #the next line takes the third thing in info (description) : "name:os:desc" for attack modules
                 print "%s: %s" % (name, info[len(getTokenColon(info[len(getTokenColon(info)) + 1:])) + 1:])
             setattr(nixmenu, "help_" + name, temp)
         if getTokenColon(info[len(getTokenColon(info)) + 1:]) == "windows":
-            setattr(winmenu, "do_" + name, y[att].main)
+            setattr(winmenu, "do_" + name, y[name].main)
             def temp(self):
                 print "Usage: %s" % name
                 #the next line takes the third thing in info (description) : "name:os:desc" for attack modules
@@ -187,4 +191,5 @@ def loadFunc(attutil):
 menus = loadFunc(attutilL)
 
 #now, run the main menu
-menu().cmdloop()
+menuMain = menu()
+menuMain.cmdloop()
