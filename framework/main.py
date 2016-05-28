@@ -8,6 +8,9 @@ global y
 global cwd
 global attutilL
 global menus
+global util_help_str
+global nix_help_str
+global win_help_str
 #define a token separator with colon: getTokenColon("foo:bar") => "foo"
 def getTokenColon(line):
     token = ""
@@ -27,6 +30,9 @@ config.load(attutilL[0], attutilL[1])
 y = config.y
 
 #define menus
+class T():
+    def __init__(self):
+        pass
 class attMenu(cmd.Cmd):
     def __init__(self):
         cmd.Cmd.__init__(self)
@@ -160,19 +166,28 @@ class windowsMenu(cmd.Cmd):
 
 #define a function to load functions into menus
 def loadFunc(attutil):
+    util_help_str = "\nDocumented commands (type help [topic]): \n========================================\nexit  help  spawn\n\nCommands from modules (type help[topic]): \n========================================\n"
     utilmenu = utilMenu()
     for util in attutil[1].keys():
+        util_help_str += util + "  "
         setattr(utilmenu, "do_" + util, y[util].main)
         def tmp(self):
             print "Usage: " + util
             print "%s: %s" % (util, attutil[1][util])
         setattr(utilmenu, "help_" + util, tmp)
-        nixmenu = linuxMenu()
-        winmenu = windowsMenu()
+    util_help_str += "\n"
+    def tmp(self):
+        print util_help_str
+    setattr(utilmenu, "do_help", tmp)
+    nixmenu = linuxMenu()
+    winmenu = windowsMenu()
+    nix_help_str = "\nDocumented commands (type help [topic])\n========================================\nexit  help\n\nCommands from modules (type help [topic]): \n========================================\n"
+    win_help_str = "\nDocumented commands (type help [topic])\n========================================\nexit  help\n\nCommands from modules (type help [topic]): \n========================================\n"
     for module, info in attutil[0].items():
         name = getTokenColon(info)
         #tests to see what os is it and load into appropriate menu
         if getTokenColon(info[len(getTokenColon(info)) + 1:]) == "linux":
+            nix_help_str += name + "  "
             setattr(nixmenu, "do_" + name, y[name].main)
             def temp(self):
                 print "Usage: %s" % name
@@ -180,12 +195,21 @@ def loadFunc(attutil):
                 print "%s: %s" % (name, info[len(getTokenColon(info[len(getTokenColon(info)) + 1:])) + 1:])
             setattr(nixmenu, "help_" + name, temp)
         if getTokenColon(info[len(getTokenColon(info)) + 1:]) == "windows":
+            win_help_str += name + "  "
             setattr(winmenu, "do_" + name, y[name].main)
             def temp(self):
                 print "Usage: %s" % name
                 #the next line takes the third thing in info (description) : "name:os:desc" for attack modules
                 print "%s: %s" % (name, info[len(getTokenColon(info[len(getTokenColon(info)) + 1:])) + 1:])
             setattr(winmenu, "help_" + name, temp)
+    nix_help_str += "\n"
+    win_help_str += "\n"
+    def tmp(self):
+        print nix_help_str
+    setattr(nixmenu, "do_help", tmp)
+    def tmp(self):
+        print win_help_str
+    setattr(winmenu, "do_help", tmp)
     return [nixmenu, winmenu, utilmenu]
 #load the functions
 menus = loadFunc(attutilL)
