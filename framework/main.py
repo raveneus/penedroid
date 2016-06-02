@@ -11,6 +11,7 @@ global menus
 global util_help_str
 global nix_help_str
 global win_help_str
+global pc
 #define a token separator with colon: getTokenColon("foo:bar") => "foo"
 def getTokenColon(line):
     token = ""
@@ -24,15 +25,14 @@ def getTokenColon(line):
 cwd = config.cwd
 #get the array
 attutilL = config.getConfig(cwd + "/config/config.conf")
+#set pc
+pc = config.pc
 #load/import modules
 config.load(attutilL[0], attutilL[1])
 #set y (global array with module objects)
 y = config.y
 
 #define menus
-class T():
-    def __init__(self):
-        pass
 class attMenu(cmd.Cmd):
     def __init__(self):
         cmd.Cmd.__init__(self)
@@ -55,7 +55,7 @@ class attMenu(cmd.Cmd):
         print "os: set the os of the target"
     def do_exit(self, args):
         if args:
-            print "*** Number of arguments: needed 0"
+            print "*** Argument number: needed 0"
             return
         return True
     def help_exit(self):
@@ -133,7 +133,7 @@ class utilMenu(cmd.Cmd):
         print "spawn: spawn a shell"
     def do_exit(self, args):
         if args:
-            print "*** Number of arguments: needed 0"
+            print "*** Argument number: needed 0"
             return
         return True
     def help_exit(self):
@@ -145,7 +145,7 @@ class linuxMenu(cmd.Cmd):
         self.prompt = "pdf-console:attack(linux)% "
     def do_exit(self, args):
         if args:
-            print "*** Number of arguments: needed 0"
+            print "*** Argument number: needed 0"
             return
         return True
     def help_exit(self):
@@ -157,7 +157,7 @@ class windowsMenu(cmd.Cmd):
         self.prompt = "pdf-console:attack(windows)% "
     def do_exit(self, args):
         if args:
-            print "*** Number of arguments: needed 0"
+            print "*** Argument number: needed 0"
             return
         return True
     def help_exit(self):
@@ -213,6 +213,86 @@ def loadFunc(attutil):
     return [nixmenu, winmenu, utilmenu]
 #load the functions
 menus = loadFunc(attutilL)
+
+#display awesome banner
+pc_banner = """
+..............-.:/-...-......................................-::-...............
+................+ys-........................................-oyo-...............
+................./yy:......................................-syo-................
+................../yy/....................................:sy+-.................
+...................:yy/.........-:///+++++++//::--.......:sy+...................
+....................:sy/.-/+os+-.:oyyyyyyyyyyyyyyyso+/:-:yy/....................
+....................-/yyyyyyyyyy+-.:+syyyyyyyyyyyyyyyyyyyy+-....................
+................../oyyyyyyyyyyyyyyo:..:+syyyyyyyyyyyyyyyyyyyo/-.................
+...............:oyyyyyyyyyyyyyyyyyyys+:..-/+syyyyyyyyyyyyyyyyyyo/...............
+............./syyyyyyyyyyyyyyyyyyyyyyyyso/-..-:/+syyyyyyyyyyyyyyys/.............
+...........:syyyyyyyyyyyyyyyyyyyyyyyyyyyyyyso/:-...-:/+oossyyyyyyyyy/...........
+.........-oyyyyyyyyys+:::+yyyyyyyyyyyyyyyyyyyyyyso..........---:::///:..........
+......../yyyyyyyyyys-.....-yyyyyyyyyyyyyyyyyyyyyyy:.............-:::::::........
+.......+yyyyyyyyyyys......-yyyyyyyyyyyyyyyyyyyyyyys-...........-yyyyyyyyo.......
+......+yyyyyyyyyyyyys/---/syyyyyyyyyyyyyyyyyyyyyyyys:........./yyyyyyyyyyo......
+....`/yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyo/-.`.-/syyyyyyyyyyyyo.....
+.```:yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy/`...
+````syyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy.```
+```-yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy/```
+```/yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyo```
+```+yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyys```
+```.---::::------------------------------------------------------------------```
+````-oyyyyyyo:.```````````````````````````````````````````````````./oyyyyyo/.```
+```+yyyyyyyyyys/-.``````````````````````````````````````````````-/syyyyyyyyys-``
+``:yyyyyyyyyyyyyyyyo/:-```````````````````````````````````.-/osyyyyyyyyyyyyyys.`
+``:yyyyyyyyyyyyyyyyyyyyys+:-.````````````````````````-:+osyyyyyyyyyyyyyyyyyyyy.`
+```+yyyyyyyyyyyyyyyyyyyyyyyyyso/:.`````````````.:/osyyyyyyyyyyyyyyyyyyyyyyyyy/``
+````:oyyyyyyyyyyyyyyyyyyyyyyyyyyyys+-````.-/+oyyyyyyyyyyyyyyyyyyyyyyyyyyyyys:```
+```````-::--:+oyyyyyyyyyyyyyyso/:.``.:/oyyyyyyyyyyyyyyyyyyyyyyyyyyso/::::-``````
+````````````````.:/osyyyo+:.``.-/+syyyyyyyyyyyyyyyyyyyyyyyyyyo+:-`` ````````````
+        ``           ````-:+oyyyyyyyyyyyyyyyyyyyyyyyyyys+/-.  ``````         `  
+                   .:/osyyyyyyyyyyyyyyyyyyyyyyyyyso/:.``.-/:.`                  
+            ``-:+syyyyyyyyyyyyyyyyyyyyyyyyyyo+:-```-:+syyyyyyys+:-``            
+    `:+osssosyyyyyyyyyyyyyyyyyyyyyyyyys+/-.``.:/osyyyyyyyyyyyyyyyyysoooso+/.    
+   :yyyyyyyyyyyyyyyyyyyyyyyyyyyyso/:.`     `-/osyyyyyyyyyyyyyyyyyyyyyyyyyyyy+`  
+  -yyyyyyyyyyyyyyyyyyyyyyyys+/-``               `.:+oyyyyyyyyyyyyyyyyyyyyyyyy+` 
+  /yyyyyyyyyyyyyyyyyyso/:.                            .-/osyyyyyyyyyyyyyyyyyys. 
+  .syyyyyyyyyyyyo+:-`                                      `-:+syyyyyyyyyyyyy+` 
+   .osyyyyyyyo-                                                  .+syyyyyyys/`  
+     `-////:.                                                      `:/+o+/-` 
+"""
+
+android_banner = """
+
+&&&&&&&&&%#&&&&&&&&&&&&&&&&&&&&&&&&&%#&&&&&&&&&
+&&&&&&&&&&*(&&&&&&&&&&&&&&&&&&&&&&*&&&&&&&&&&
+&&&&&&&&&&&//&&&&&&&&&%%%&&&&&&&&&(*&&&&&&&&&&&
+&&&&&&&&&&&&//#/**%&(***********(//&&&&&&&&&&&&
+&&&&&&&&&&%*********(&&(************#&&&&&&&&&&
+&&&&&&&&/**************%&***********/&&&&&&&&
+&&&&&&/*******************/#%&&&%(/*****/&&&&&&
+&&&&%******(&&*************/&&&&&&&&&&&&&&&&&
+&&*******/&&&/**************(&&&&&&/*****(&&&
+&&%*****************************/%%/********#&&
+@@/******************************************@@
+@&*******************************************%@
+@%*******************************************#@
+@@%****%@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@(***#@@
+@(*******/%@@@@@@@@@@@@@@@@@@@@@@@@@@%(*******@
+@/************/#@@@@@@@@@@@@@@@&(*************&
+@@/*****************/%@@@&(******************%@
+@@@@@@@@%/******#&@@%/****************/%@@@@@@@
+@@@@@@@@@@@@@@%/****************/%@@@@@@@@@@@@@
+@@@@@@@@@&(****************/#@@***(&@@@@@@@@@
+@@#*******************#&@@#/****************(@@
+@/**************(&@@@@@@@@@@@@#***************@
+@/********/%@@@@@@@@@@@@@@@@@@@@@@@%/*********@
+
+"""
+
+if pc == "yes":
+    print pc_banner
+else:
+    print android_banner
+
+print "PeneDroid Console v1.0 -- an FTP exploitation framework"
+print "(c) Raveneus 2016\n"
 
 #now, run the main menu
 menuMain = menu()
