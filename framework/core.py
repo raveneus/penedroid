@@ -2,7 +2,7 @@ import cmd
 class Exploit(cmd.Cmd):
   def __init__(self, name, target, payload, variables, descriptions, check=[False]):
     cmd.Cmd.__init__(self)
-    self.prompt = "pdf-console:attack(%s)% " % name
+    self.prompt = "pdf-console:attack(" + name +")% "
     self.os = __import__("os")
     self.ftplib = __import__("ftplib")
     _tmp = __import__("random", globals(), locals(), ['randint', 'choice'])
@@ -23,7 +23,7 @@ class Exploit(cmd.Cmd):
     self.check = check
     self.banner = [""]
   def rand_text(self, length):
-    return "".join( [random.choice(self.letters) for i in xrange(length)] )
+    return "".join( [self.choice(self.letters) for i in xrange(length)] )
   def check_vuln(self):
     print "[+]The host %s is vulnerable!" % self.variables["host"]
   def check_safe(self):
@@ -86,14 +86,14 @@ class Exploit(cmd.Cmd):
     print "set: set a variable to a value"
     print "Note: you MUST use it exactly as shown: no set [var]=[val]!"
   def do_set(self, args):
-    var = getToken(args)
+    var = self.getToken(args)
     val = args[len(var) + 3:]
     for variable in self.variables.keys():
       if variable == var:
         self.variables[variable] = val 
-    else:
-      print "*** Variable not found %s" % var
-      return
+      else:
+        print "*** Variable not found: %s" % var
+        return
     print "[*]%s => %s" % (var, val)
   def help_show(self):
     print "Usage: show options"
@@ -101,14 +101,15 @@ class Exploit(cmd.Cmd):
   def do_show(self, args):
     if args != "options":
       print "*** Unknown argument: " + args
-    print "Target: %s" % self.target[0]
-    print "Options for %s:" % self.name[0]
+      return
+    print "Target: %s" % self.target
+    print "Options for %s:" % self.name
     print "========================"
     for variable in self.variables.keys():
       print "%s    %s    %s" % (variable, self.variables[variable], self.descriptions[variable])
   def help_exit(self):
     print "Usage: exit"
-    print "exit: exit the %s context" % self.name[0]
+    print "exit: exit the %s context" % self.name
   def do_exit(self, args):
     if args:
       print "*** Argument number: needed 0"
@@ -119,7 +120,7 @@ class Exploit(cmd.Cmd):
     print "check: check if target is vulnerable. Some modules do not support this."
   def do_check(self, args):
     if args:
-      print "*** Number of arguments: needed 0"
+      print "*** Argument number: needed 0"
       return
     if self.check[0] == False:
       print "[-]This module doesn't support the check function."
@@ -136,4 +137,4 @@ class Exploit(cmd.Cmd):
     self.deliver(payload)
     print "[+]Payload sent."
     print "[*]Connecting..."
-    self.os.system("telnet %s 7066" % self.variables["host"]) 
+    self.os.system("../../telnet %s 7066" % self.variables["host"]) 
