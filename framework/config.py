@@ -19,6 +19,7 @@ global y
 y = {}
 parser = ConfigParser.ConfigParser()
 def getConfig(configFile):
+    global pc
     parser.read(configFile)
     att = eval(parser.get("prf", "att"))
     util = eval(parser.get("prf", "util"))
