@@ -132,6 +132,12 @@ class Exploit(cmd.Cmd):
     print "Usage: start"
     print "start: start the attack"
   def do_start(self, args):
+    for v in self.variables.keys():
+      if self.variables[v]:
+        pass
+      else:
+        print "*** Variable not set: " + v
+        return
     payload = self.init()
     payload = self.generate(payload)
     self.deliver(payload)
