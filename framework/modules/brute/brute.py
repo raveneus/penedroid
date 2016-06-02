@@ -31,7 +31,7 @@ class bruteMenu(cmd.Cmd):
           if let in self.host[0]:
               self.host[0] = gethostbyname(self.host[0])
       ftp = ftplib.FTP(self.host[0])
-      pwdfile = open(self.passwdfile[0], "r")
+      pwdfile = open("modules/brute/" + self.passwdfile[0], "r")
       if self.singleUsername == True:
           for line in pwdfile.readlines():
               try:
