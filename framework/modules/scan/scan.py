@@ -3,6 +3,8 @@ from socket import socket, gethostbyname, AF_INET, SOCK_STREAM
 import threading
 from sys import stdout
 
+upmenu = "util"
+
 class scanThread(threading.Thread):
     def __init__(self, ip, stdout):
         threading.Thread.__init__(self)
