@@ -1,5 +1,6 @@
 import cmd
 import ftplib
+from socket import gethostbyname
 
 def getToken(line):
     token = ""
@@ -16,7 +17,7 @@ class bruteMenu(cmd.Cmd):
   def __init__(self):
     cmd.Cmd.__init__(self)
     self.prompt = "pdf-console:util(brute)% "
-    self.passwdfile = ["rockyou.txt"]
+    self.passwdfile = ["uniq.txt"]
     self.singleUsername = [True]
     self.user = ["admin"]
     self.userfile = ["users.txt"]
@@ -66,8 +67,8 @@ class bruteMenu(cmd.Cmd):
     print "Options for brute:"
     print "========================"
     print "host    " + self.host[0] + "    target's ip" 
-    print "pwdfile    " + self.pwdfile[0] + "    password file to try passwords from"
-    print "single-username    " + self.singleUsername[0] + "    True/False (use one username)"
+    print "pwdfile    " + self.passwdfile[0] + "    password file to try passwords from"
+    print "single-username    " + str(self.singleUsername[0]) + "    True/False (use one username)"
     print "user    " + self.user[0] + "    username to crack passwords for"
     print "userfile    " + self.userfile[0] + "    file with usernames in them"
   def help_show(self):
