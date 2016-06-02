@@ -1,6 +1,6 @@
 import ftplib
 import cmd
-
+from socket import gethostbyname
 
 def getToken(line):
     token = ""
@@ -92,6 +92,6 @@ class ftpanonMenu(cmd.Cmd):
     print "show options: show the variables, current value, and description"
 def main(s):
   ftpAnonMenu = ftpanonMenu()
-  ftpAnonMenu.cmdloop("pdf-console:" + upmenu + "(ftpanon)% ")
+  ftpAnonMenu.cmdloop()
 if __name__ == '__main__':
   main("")
