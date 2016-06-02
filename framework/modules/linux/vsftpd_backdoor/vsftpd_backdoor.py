@@ -15,5 +15,5 @@ class vsftpdBackdoorMenu(core.Exploit):
 def main(s):
   menu = vsftpdBackdoorMenu("vsftpd_backdoor", "Linux with vsftpd v2.3.4", "", {"host":""}, {"host":"the IP of the target"})
   menu.cmdloop()
-if __name__ == __main__:
+if __name__ == '__main__':
   main("")
