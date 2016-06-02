@@ -1,6 +1,7 @@
 import ConfigParser
 import imp
 global cwd
+global pc
 
 def getTokenColon(line):
     token = ""
@@ -21,6 +22,12 @@ def getConfig(configFile):
     parser.read(configFile)
     att = eval(parser.get("prf", "att"))
     util = eval(parser.get("prf", "util"))
+    try:
+        pc = parser.get("prf", "pc")
+        if pc != "yes":
+            print "If you're going to set pc, it must be \"yes\""
+    except:
+        pc = "no"
     conf = [att, util]
     return conf
 def load(att, util):
