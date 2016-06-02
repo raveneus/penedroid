@@ -1,7 +1,9 @@
 import cmd
 from socket import socket, gethostbyname, AF_INET, SOCK_STREAM
 import threading
-import sys.stdout
+from sys import stdout
+
+upmenu = "util"
 
 class scanThread(threading.Thread):
     def __init__(self, ip, stdout):
@@ -45,12 +47,13 @@ class scanMenu(cmd.Cmd):
         cmd.Cmd.__init__(self)
         self.ip = ["ftp.debian.org"]
         self.quick = [True]
+        self.prompt = "pdf-console:util(scan)% "
     def help_help(self):
         print "Usage: help [cmd]"
         print "cmd    command to get help on"
         print "help: show help on a command or list commands"
     def do_set(self, args):
-        if !args:
+        if len(args) < 1:
             self.help_set()
             return
         var = getToken(args)
@@ -109,8 +112,8 @@ class scanMenu(cmd.Cmd):
     def help_show(self):
         print "Usage: show options"
         print "show options: show the variables, current value, and description"
-def main():
+def main(s):
     scanmenu = scanMenu()
     scanmenu.cmdloop("pdf-console:" + upmenu + "(scan)% ")
-if __name__ == __main__:
-    main()
+if __name__ == '__main__':
+    main("")

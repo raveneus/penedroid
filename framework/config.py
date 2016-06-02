@@ -1,6 +1,7 @@
 import ConfigParser
 import imp
 global cwd
+global pc
 
 def getTokenColon(line):
     token = ""
@@ -18,21 +19,28 @@ global y
 y = {}
 parser = ConfigParser.ConfigParser()
 def getConfig(configFile):
+    global pc
     parser.read(configFile)
     att = eval(parser.get("prf", "att"))
     util = eval(parser.get("prf", "util"))
+    try:
+        pc = parser.get("prf", "pc")
+        if pc != "yes":
+            print "If you're going to set pc, it must be \"yes\""
+    except:
+        pc = "no"
     conf = [att, util]
     return conf
 def load(att, util):
     for module, info in att.items():
         m = imp.load_source(module, cwd + "/modules/" + module + "/" + getTokenColon(info) + ".py")
-        if y[getTokenColon(info)]:
+        if getTokenColon(info) in y.keys():
             print "[-] Two modules with the same name."
         else:
-            y[module] = m
+            y[getTokenColon(info)] = m
     for module in util.keys():
         m = imp.load_source(module, cwd + "/modules/" + module + "/" + module + ".py")
-        if y[module]:
+        if module in y.keys():
             print "[-] Two modules with the same name."
         else:
             y[module] = m

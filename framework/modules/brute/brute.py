@@ -1,5 +1,6 @@
 import cmd
 import ftplib
+from socket import gethostbyname
 
 def getToken(line):
     token = ""
@@ -15,7 +16,8 @@ upmenu = "util"
 class bruteMenu(cmd.Cmd):
   def __init__(self):
     cmd.Cmd.__init__(self)
-    self.passwdfile = ["rockyou.txt"]
+    self.prompt = "pdf-console:util(brute)% "
+    self.passwdfile = ["uniq.txt"]
     self.singleUsername = [True]
     self.user = ["admin"]
     self.userfile = ["users.txt"]
@@ -29,7 +31,7 @@ class bruteMenu(cmd.Cmd):
           if let in self.host[0]:
               self.host[0] = gethostbyname(self.host[0])
       ftp = ftplib.FTP(self.host[0])
-      pwdfile = open(self.passwdfile[0], "r")
+      pwdfile = open("modules/brute/" + self.passwdfile[0], "r")
       if self.singleUsername == True:
           for line in pwdfile.readlines():
               try:
@@ -65,8 +67,8 @@ class bruteMenu(cmd.Cmd):
     print "Options for brute:"
     print "========================"
     print "host    " + self.host[0] + "    target's ip" 
-    print "pwdfile    " + self.pwdfile[0] + "    password file to try passwords from"
-    print "single-username    " + self.singleUsername[0] + "    True/False (use one username)"
+    print "pwdfile    " + self.passwdfile[0] + "    password file to try passwords from"
+    print "single-username    " + str(self.singleUsername[0]) + "    True/False (use one username)"
     print "user    " + self.user[0] + "    username to crack passwords for"
     print "userfile    " + self.userfile[0] + "    file with usernames in them"
   def help_show(self):
@@ -83,7 +85,6 @@ class bruteMenu(cmd.Cmd):
           else:
               print "*** Value not expected type: boolean needed, but found: " + type(eval(val))
               return
-      print "[*]%s => %s" % (var, val)
       elif var == "user":
           self.user[0] = val
       elif var == "userfile":
@@ -93,14 +94,15 @@ class bruteMenu(cmd.Cmd):
       else:
           print "*** Variable not found: " + var
           return
+      print "[*]%s => %s" % (var, val)
   def help_set(self):
       print "Usage: set [var] = [val]"
       print "var    variable to set"
       print "val    value to set variable to"
       print "set: set a variable to a value"
       print "Note: you MUST use it exactly as shown: no set [var]=[val]!"
-def main():
+def main(s):
     brutemenu = bruteMenu()
-    brutemenu.cmdloop("pdf-console " + upmenu + "(brute)% ")
-if __name__ == __main__:
-    main()
+    brutemenu.cmdloop()
+if __name__ == '__main__':
+    main("")

