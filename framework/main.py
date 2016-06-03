@@ -4,6 +4,7 @@ import ftplib
 import cmd
 from socket import *
 import config
+#global variables
 global y
 global cwd
 global attutilL
@@ -12,6 +13,8 @@ global util_help_str
 global nix_help_str
 global win_help_str
 global pc
+#version number
+version = "0.2"
 #define a token separator with colon: getTokenColon("foo:bar") => "foo"
 def getTokenColon(line):
     token = ""
@@ -291,7 +294,7 @@ if pc == "yes":
 else:
     print android_banner
 
-print "PeneDroid Console v1.0 -- an FTP exploitation framework"
+print "PeneDroid Console v" + version + " -- an FTP exploitation framework"
 print "(c) Raveneus 2016\n"
 
 #now, run the main menu

