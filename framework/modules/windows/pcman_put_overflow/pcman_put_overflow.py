@@ -24,7 +24,7 @@ class pcmanPutOverflowMenu(core.Exploit):
     else:
       self.check_safe()
 def main(s):
-  pcmanputoverflowmenu = pcmanPutOverflowMenu('pcman_put_overflow', 'Windows XP SP3 English', 'pcman_put.shell', {'user':'anonymous', 'passwd':'anonymous@example.com', 'host':''}, {'user':'the user to login as', 'passwd':'the password to use to login', 'host':'the ip of the target'}, [True])
+  pcmanputoverflowmenu = pcmanPutOverflowMenu('pcman_put_overflow', 'Windows XP SP3 English', 'pcman_put.shell', {'user':'anonymous', 'passwd':'anonymous@example.com', 'host':''}, {'user':'the user to login as', 'passwd':'the password to use to login', 'host':'the ip of the target'}, check=[True])
   pcmanputoverflowmenu.cmdloop()
 if __name__ == '__main__':
   main("")

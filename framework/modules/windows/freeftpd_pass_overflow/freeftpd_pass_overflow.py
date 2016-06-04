@@ -25,7 +25,7 @@ class freeftpdPassOverflowMenu(core.Exploit):
     else:
       self.check_safe()
 def main(s):
-  freeftpdpassoverflowmenu = freeftpdPassOverflowMenu("freeftpd_pass_overflow", "freeFTPd 1.0.10 and below on Windows", "freeftpd_pass.shell", {"user":"anonymous", "host":""}, {"user":"the user to use", "host":"the IP of the target"}, [True])
+  freeftpdpassoverflowmenu = freeftpdPassOverflowMenu("freeftpd_pass_overflow", "freeFTPd 1.0.10 and below on Windows", "freeftpd_pass.shell", {"user":"anonymous", "host":""}, {"user":"the user to use", "host":"the IP of the target"}, check=[True])
   freeftpdpassoverflowmenu.cmdloop()
 if __name__ == '__main__':
   main("")

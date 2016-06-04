@@ -57,7 +57,7 @@ Now you have to define the generate and deliver methods.
 
 generate
 ========
-The generate function should be defined like this: `def generate(self, payload)`. In it you define how to, well, *generate* your payload. This is required, even if it just does `return ""`. Remember to return the generated payload.
+The generate function should be defined like this: `def generate(self, payload)`. In it you define how to, well, *generate* your payload. This is required, even if it just does `return ""`. Remember to return the generated payload. Note: you should always check to see if `self.getShellcode()` returns 1. If it does, you should also return 1. E.g. `sh = self.getShellcode()` `if sh == 1: return 1`
 
 deliver
 =======
